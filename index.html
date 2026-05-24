@@ -3,993 +3,2564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Communication Suite</title>
+    <title>W-SUITE // VERSION 2.1</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
+        /* 🎨 MODULE 1: PREMIUM SYSTEM DESIGN LEXICON */
         :root {
-            --bg-main: #0a0a0c;
-            --bg-panel: #121216;
-            --bg-accent: #1c1c24;
-            --border-color: #262631;
-            --text-primary: #ffffff;
-            --text-secondary: #8e8e9f;
-            --gold: #d4af37;
-            --gold-hover: #f3e5ab;
-            --danger: #ff4d4d;
+            --bg-obsidian: #030305;
+            --bg-charcoal-card: rgba(12, 12, 18, 0.65);
+            --border-metallic: #1a1a26;
+            --text-pure: #ffffff;
+            --text-silver: #8e8e93;
+            
+            /* Signature Accent Profiles */
+            --glow-purple-start: #6200ee;
+            --glow-purple-end: #3700b3;
+            --rank-gold: #ffd700;
+            --matrix-green: #00e676;
+            --crimson-velvet: #cf6679;
+            --busy-orange: #ff9100;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            display: flex;
-            flex-direction: column;
+            background-color: var(--bg-obsidian);
+            color: var(--text-pure);
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: scroll;
         }
 
-        /* Top Credit Header */
-        .premium-header {
-            background: linear-gradient(90deg, #121216 0%, #1c1c24 50%, #121216 100%);
-            border-bottom: 1px solid var(--border-color);
-            padding: 10px 24px;
-            text-align: center;
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            font-weight: 600;
+        /* Standard Custom Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-obsidian);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-metallic);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-silver);
         }
 
-        /* Top Navigation Bar */
-        .navigation-bar {
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
+        /* 📐 MODULE 2: GLOBAL SPACIOUS NAVBAR HEADER */
+        .w-navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 32px;
-            height: 70px;
-        }
-
-        .brand-logo {
-            font-size: 1.25rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #8e8e9f 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 8px;
-            height: 100%;
-        }
-
-        .tab-button {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            padding: 0 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tab-button:hover {
-            color: var(--text-primary);
-            background-color: var(--bg-accent);
-        }
-
-        .tab-button.active {
-            color: var(--text-primary);
-            background-color: var(--bg-accent);
-            box-shadow: inset 0 -2px 0 var(--gold);
-            border-radius: 6px 6px 0 0;
-        }
-
-        .user-profile-status {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--bg-accent);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--text-secondary);
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .status-dot.active {
-            background-color: #2ecc71;
-            box-shadow: 0 0 8px #2ecc71;
-        }
-
-        /* Main Workspace Viewports */
-        .workspace-container {
-            flex: 1;
-            max-width: 1400px;
+            padding: 2.5rem 6rem;
             width: 100%;
-            margin: 0 auto;
-            padding: 32px;
-            display: flex;
-            position: relative;
-            height: calc(100vh - 110px);
-        }
-
-        .view-frame {
-            display: none;
-            width: 100%;
-            height: 100%;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .view-frame.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Typography & Structure Elements */
-        h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Dashboard Overview Grid Layout */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-
-        .metric-card {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .metric-card::before {
-            content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+            background: rgba(3, 3, 5, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-metallic);
+            z-index: 1000;
+            height: 90px;
         }
 
-        .metric-title {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
+        .w-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
         }
 
-        .metric-value {
-            font-size: 2rem;
+        .w-logo-letter {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--rank-gold);
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+        }
+
+        .w-brand-text {
             font-weight: 700;
-            color: var(--text-primary);
+            font-size: 1.1rem;
+            letter-spacing: 0.25em;
+            color: var(--text-pure);
         }
 
-        /* Input Controls & Premium Interface Fields */
-        .control-input-wrapper {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 32px;
+        .w-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
         }
 
-        .input-inline-row {
+        .w-nav-item {
+            color: var(--text-silver);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .w-nav-item:hover, .w-nav-item.active {
+            color: var(--text-pure);
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+        }
+
+        .w-auth-zone {
+            position: relative;
+        }
+
+        .w-btn-authenticate {
+            background: transparent;
+            border: 1px solid var(--glow-purple-start);
+            color: var(--text-pure);
+            padding: 0.75rem 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .w-btn-authenticate:hover {
+            background: var(--glow-purple-start);
+            box-shadow: 0 0 20px rgba(98, 0, 238, 0.4);
+        }
+
+        /* Profile Ring Array */
+        .w-profile-avatar-container {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            border: 2px solid var(--border-metallic);
+            transition: border-color 0.3s ease;
+        }
+
+        .w-profile-avatar-container.active-logged {
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 10px rgba(0, 230, 118, 0.2);
+        }
+
+        .w-profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .w-status-indicator {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--text-silver);
+            border: 2px solid var(--bg-obsidian);
+        }
+
+        .w-status-indicator.online { background-color: var(--matrix-green); box-shadow: 0 0 6px var(--matrix-green); }
+        .w-status-indicator.busy { background-color: var(--busy-orange); box-shadow: 0 0 6px var(--busy-orange); }
+        .w-status-indicator.offline { background-color: var(--text-silver); }
+
+        /* Dropdown Terminal */
+        .w-dropdown-glass {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 240px;
+            background: rgba(12, 12, 18, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-metallic);
+            border-radius: 8px;
+            padding: 0.75rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 1100;
+        }
+
+        .w-dropdown-glass.show {
+            display: flex;
+        }
+
+        .w-dropdown-item {
+            padding: 0.75rem 1rem;
+            color: var(--text-silver);
+            font-size: 0.85rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .w-dropdown-item:hover {
+            background: var(--bg-accent);
+            color: var(--text-pure);
+        }
+
+        /* Global Viewport Frame Positioning */
+        .w-viewport {
+            padding-top: 90px;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+        }
+
+        .w-viewport.active {
+            display: flex;
+        }
+
+        /* 🏠 MODULE 3: HOMEPAGE COMPONENT ARCHITECTURE */
+        .w-hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10rem 2rem;
+            margin-bottom: 8rem;
+        }
+
+        .w-hero-headline {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #ffffff, #a1a1a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .w-hero-tagline {
+            color: var(--text-silver);
+            font-size: 1.1rem;
+            font-weight: 400;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 3.5rem;
+        }
+
+        .w-btn-luxury {
+            background: linear-gradient(135deg, var(--glow-purple-start), var(--glow-purple-end));
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-pure);
+            padding: 1.2rem 3rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+            box-shadow: 0 4px 20px rgba(98, 0, 238, 0.3);
+        }
+
+        .w-btn-luxury:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 30px rgba(98, 0, 238, 0.5);
+        }
+
+        .w-matrix-title {
+            text-align: center;
+            font-size: 1.25rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 4rem;
+            color: var(--text-pure);
+        }
+
+        .w-tiers-grid {
+            padding: 0 6rem;
+            gap: 3rem;
             display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            margin-bottom: 8rem;
+        }
+
+        .w-tier-card {
+            background: var(--bg-charcoal-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-metallic);
+            border-radius: 12px;
+            padding: 3.5rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .w-tier-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .w-tier-card.elite {
+            border-color: var(--rank-gold);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .w-tier-card.cosmos {
+            box-shadow: 0 0 40px rgba(98, 0, 238, 0.15);
+        }
+
+        .w-tier-rank-badge {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-silver);
+        }
+
+        .w-tier-card.elite .w-tier-rank-badge { color: var(--rank-gold); }
+        .w-tier-card.cosmos .w-tier-rank-badge { color: #b388ff; }
+
+        .w-tier-name {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .w-tier-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            color: var(--text-pure);
+        }
+
+        .w-tier-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .w-tier-features li {
+            font-size: 0.9rem;
+            color: var(--text-silver);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .w-tier-features i {
+            color: var(--matrix-green);
+            font-size: 0.85rem;
+        }
+
+        /* Teaser Panel Blur Frame */
+        .w-teaser-widescreen {
+            margin: 0 6rem 8rem 6rem;
+            height: 350px;
+            border: 1px solid var(--border-metallic);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(12, 12, 18, 0.4);
+        }
+
+        .w-blur-ambient-canvas {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            filter: blur(60px);
+            -webkit-filter: blur(60px);
+            opacity: 0.5;
+        }
+
+        .w-blur-pill {
+            position: absolute;
+            width: 180px;
+            height: 70px;
+            border-radius: 100px;
+            background: var(--glow-purple-start);
+            animation: floatingPills 12s infinite alternate ease-in-out;
+        }
+        .w-blur-pill:nth-child(2) {
+            background: #3f51b5;
+            left: 60%;
+            top: 40%;
+            animation-delay: -4s;
+        }
+
+        @keyframes floatingPills {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(60px, 40px) rotate(45deg); }
+        }
+
+        .w-teaser-badge {
+            position: relative;
+            z-index: 5;
+            background: rgba(3, 3, 5, 0.75);
+            border: 1px solid var(--border-metallic);
+            padding: 1.5rem 3.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        /* Suggestions Engine Layout */
+        .w-terminal-suggestion-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 0 6rem;
+            margin-bottom: 8rem;
+        }
+
+        .w-terminal-form {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .w-textarea-charcoal {
+            width: 100%;
+            height: 150px;
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: var(--text-pure);
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            resize: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .w-textarea-charcoal:focus {
+            border-color: var(--glow-purple-start);
+            box-shadow: 0 0 20px rgba(98, 0, 238, 0.15);
+        }
+
+        .w-form-status-msg {
+            font-size: 0.9rem;
+            color: var(--matrix-green);
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* 💬 MODULE 4 & 5: W-MESSAGES ENGINE SPACE */
+        .w-messages-workspace {
+            display: flex;
+            width: 100%;
+            height: calc(100vh - 90px);
+        }
+
+        .w-chat-sidebar {
+            width: 25%;
+            background: var(--bg-charcoal-card);
+            border-right: 1px solid var(--border-metallic);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.5rem;
+        }
+
+        .w-btn-sidebar-action {
+            width: 100%;
+            background: var(--bg-obsidian);
+            border: 1px solid var(--border-metallic);
+            color: var(--text-pure);
+            padding: 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .w-btn-sidebar-action:hover {
+            border-color: var(--text-silver);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .w-threads-scroll-feed {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .w-chat-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .w-chat-row:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .w-chat-row.selected {
+            background: rgba(98, 0, 238, 0.08);
+            border-color: rgba(98, 0, 238, 0.2);
+        }
+
+        .w-avatar-presence-wrapper {
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+
+        .w-row-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--bg-obsidian);
+        }
+
+        .w-row-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            overflow: hidden;
+        }
+
+        .w-row-header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .w-row-username {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-pure);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .w-row-snippet {
+            font-size: 0.8rem;
+            color: var(--text-silver);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .w-main-chat-viewport {
+            width: 75%;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-obsidian);
+            position: relative;
+        }
+
+        .w-viewport-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            color: var(--text-silver);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            gap: 1rem;
+        }
+
+        .w-active-viewport-container {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .w-chat-stream-header {
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid var(--border-metallic);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            color: var(--text-pure);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .w-chat-historical-stream {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .w-msg-node-wrapper {
+            display: flex;
+            flex-direction: column;
+            max-width: 65%;
+            position: relative;
+        }
+
+        .w-msg-node-wrapper.outgoing {
+            align-self: flex-end;
             align-items: flex-end;
         }
 
-        .field-block {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .w-msg-node-wrapper.incoming {
+            align-self: flex-start;
+            align-items: flex-start;
         }
 
-        .field-block label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
+        .w-msg-meta-stamp {
+            font-size: 0.7rem;
+            color: var(--text-silver);
+            margin-bottom: 0.35rem;
+            letter-spacing: 0.02em;
         }
 
-        input[type="text"], input[type="email"] {
-            background-color: var(--bg-main);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 12px 16px;
-            border-radius: 6px;
+        .w-msg-bubble {
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
             font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.3s;
+            line-height: 1.5;
+            word-break: break-word;
+            position: relative;
         }
 
-        input[type="text"]:focus, input[type="email"]:focus {
-            border-color: var(--gold);
+        .w-msg-node-wrapper.outgoing .w-msg-bubble {
+            background: linear-gradient(135deg, var(--glow-purple-start), var(--glow-purple-end));
+            color: var(--text-pure);
+            border-bottom-right-radius: 4px;
         }
 
-        /* Premium Buttons */
-        .prime-button {
-            background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%);
-            color: #000000;
-            border: none;
-            padding: 12px 24px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
+        .w-msg-node-wrapper.incoming .w-msg-bubble {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            color: var(--text-pure);
+            border-bottom-left-radius: 4px;
+        }
+
+        .w-msg-bubble-file-img {
+            max-width: 300px;
+            max-height: 200px;
+            border-radius: 8px;
+            display: block;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .w-msg-bubble-file-link {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            color: var(--rank-gold);
+            text-decoration: none;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            border: 1px dashed var(--border-metallic);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.2);
         }
 
-        .prime-button:hover {
-            opacity: 0.9;
-        }
-
-        .prime-button:active {
-            transform: scale(0.98);
-        }
-
-        .prime-button.btn-dark-style {
-            background: var(--bg-accent);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .prime-button.btn-dark-style:hover {
-            background-color: var(--border-color);
-        }
-
-        /* Listing Arrays Tables */
-        .data-table-container {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            flex: 1;
-        }
-
-        .table-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr auto;
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border-color);
-            align-items: center;
-            transition: background-color 0.2s;
-        }
-
-        .table-row:hover {
-            background-color: var(--bg-accent);
-        }
-
-        .table-row:last-child {
-            border-bottom: none;
-        }
-
-        .action-icon-btn {
-            background: none;
+        .w-msg-erasure-action {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
             border: none;
-            color: var(--text-secondary);
+            color: var(--crimson-velvet);
             cursor: pointer;
-            padding: 8px;
-            border-radius: 4px;
-            transition: all 0.2s;
+            padding: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-size: 0.9rem;
         }
 
-        .action-icon-btn:hover {
-            color: var(--danger);
-            background-color: rgba(255, 77, 77, 0.1);
+        .w-msg-node-wrapper.outgoing:hover .w-msg-erasure-action {
+            opacity: 1;
         }
 
-        /* Secure Chat Architecture Split View */
-        .messaging-split-layout {
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-panel);
-            border-radius: 12px;
-            flex: 1;
-            overflow: hidden;
-            height: 100%;
+        .w-msg-node-wrapper.outgoing .w-msg-erasure-action {
+            left: -40px;
         }
 
-        .sidebar-channels {
-            border-right: 1px solid var(--border-color);
+        /* Interactive Dashboard Dock */
+        .w-chat-utilities-dock {
+            padding: 2rem 3rem;
+            background: var(--bg-obsidian);
+            border-top: 1px solid var(--border-metallic);
             display: flex;
             flex-direction: column;
-            background-color: #0e0e12;
+            gap: 1rem;
         }
 
-        .channels-header {
-            padding: 24px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 700;
+        .w-input-row-pill {
+            display: flex;
+            align-items: center;
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            border-radius: 100px;
+            padding: 0.5rem 1.5rem;
+            gap: 1rem;
         }
 
-        .threads-scroll-stack {
+        .w-input-text-field {
             flex: 1;
-            overflow-y: auto;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-pure);
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
         }
 
-        .thread-item-node {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-color);
+        .w-dock-controls-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .w-dock-left-buttons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .w-btn-dock-utility {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            color: var(--text-silver);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
             cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .w-btn-dock-utility:hover {
+            color: var(--text-pure);
+            border-color: var(--text-silver);
+        }
+
+        .w-btn-dock-send {
+            background: var(--text-pure);
+            color: var(--bg-obsidian);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease;
+        }
+
+        .w-btn-dock-send:hover {
+            transform: scale(1.05);
+        }
+
+        /* 🎮 MODULE 7: W-GAMES LAUNCHER SYSTEM */
+        .w-games-container {
+            padding: 4rem 6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .w-games-hero-banner {
+            width: 100%;
+            height: 350px;
+            border-radius: 12px;
+            border: 1px solid var(--border-metallic);
+            background: linear-gradient(180deg, rgba(26, 26, 38, 0.4) 0%, var(--bg-obsidian) 100%), url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?auto=format&fit=crop&w=1400&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+        }
+
+        .w-games-badge-online {
+            background: rgba(0, 230, 118, 0.15);
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 0.4rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .w-games-hero-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .w-games-hero-controls {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .w-arcade-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3.5rem;
+        }
+
+        .w-game-card {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .w-game-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .w-game-cover-wrap {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .w-game-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .w-game-card:hover .w-game-cover-img {
+            transform: scale(1.05);
+        }
+
+        .w-game-padlock-overlay {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(3, 3, 5, 0.85);
+            border: 1px solid var(--rank-gold);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rank-gold);
+            font-size: 0.85rem;
+            z-index: 10;
+        }
+
+        .w-game-body {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .w-game-meta-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.2s;
+            margin-bottom: 0.5rem;
         }
 
-        .thread-item-node:hover {
-            background-color: var(--bg-panel);
-        }
-
-        .thread-item-node.selected {
-            background-color: var(--bg-accent);
-            border-left: 3px solid var(--gold);
-        }
-
-        .thread-info {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .thread-meta-type {
-            font-size: 0.7rem;
+        .w-game-developer {
+            font-size: 0.75rem;
             text-transform: uppercase;
-            color: var(--gold);
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
+            color: var(--text-silver);
         }
 
-        .thread-title-text {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .channel-creation-footer {
-            padding: 16px;
-            border-top: 1px solid var(--border-color);
-            background-color: var(--bg-panel);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .channel-creation-footer input {
-            background-color: var(--bg-main);
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 0.85rem;
-        }
-
-        /* Centralized Chat Viewport Window */
-        .active-chat-viewport {
-            display: flex;
-            flex-direction: column;
-            background-color: var(--bg-main);
-        }
-
-        .active-chat-header {
-            padding: 20px 24px;
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
+        .w-game-version-badge {
+            background: var(--border-metallic);
+            color: var(--text-silver);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            font-size: 1rem;
-            letter-spacing: -0.2px;
+            border-radius: 4px;
         }
 
-        .chat-historical-stream {
+        .w-game-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--text-pure);
+        }
+
+        .w-game-telemetry-row {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-metallic);
+            padding-top: 1.25rem;
+        }
+
+        .w-game-counter-string {
+            font-size: 0.8rem;
+            color: var(--text-silver);
+            font-family: monospace;
+        }
+
+        /* Staging Arena Workspace */
+        .w-developer-staging-portal {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .w-staging-iframe-wrap {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
+            border: 1px solid var(--border-metallic);
+            overflow: hidden;
+            display: none;
+        }
+
+        .w-staging-iframe-wrap.visible {
+            display: block;
+        }
+
+        .w-staging-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 🤖 MODULE 8: SYSTEM REBRANDED AI TERMINAL & POPUP WIDGET */
+        .w-ai-station-canvas {
+            display: flex;
+            flex-direction: column;
+            max-width: 900px;
+            width: 100%;
+            margin: 2rem auto;
             flex: 1;
-            padding: 24px;
+            padding: 0 2rem;
+        }
+
+        .w-ai-feed-container {
+            flex: 1;
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            border-radius: 12px;
+            padding: 3rem;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-height: 60vh;
         }
 
-        .chat-bubble-row {
-            max-width: 65%;
+        .w-ai-msg-row {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            max-width: 80%;
         }
 
-        .chat-bubble-row.incoming {
-            align-self: flex-start;
-        }
+        .w-ai-msg-row.user { align-self: flex-end; align-items: flex-end;}
+        .w-ai-msg-row.bot { align-self: flex-start; align-items: flex-start;}
 
-        .chat-bubble-row.outgoing {
-            align-self: flex-end;
-        }
-
-        .bubble-sender {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .bubble-payload {
-            padding: 12px 18px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .chat-bubble-row.incoming .bubble-payload {
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .chat-bubble-row.outgoing .bubble-payload {
-            background: linear-gradient(135deg, #2c2c35 0%, #1c1c24 100%);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .input-interaction-dock {
-            padding: 20px 24px;
-            background-color: var(--bg-panel);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            gap: 16px;
-        }
-
-        .input-interaction-dock input {
-            flex: 1;
-        }
-
-        /* Secure Identification Access Layer (Google Auth UI) */
-        .identity-gate-layer {
-            max-width: 480px;
-            width: 100%;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 48px;
-            margin: auto;
-            text-align: center;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.4);
-        }
-
-        .gate-icon {
-            font-size: 2.5rem;
-            color: var(--gold);
-            margin-bottom: 24px;
-        }
-
-        .gate-description {
-            color: var(--text-secondary);
+        .w-ai-bubble {
+            padding: 1.2rem 1.8rem;
+            border-radius: 12px;
             font-size: 0.95rem;
             line-height: 1.6;
-            margin-bottom: 32px;
-            margin-top: 12px;
         }
 
-        /* Luxury Google Login Design */
-        .google-auth-trigger-btn {
-            width: 100%;
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            padding: 14px 24px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            display: inline-flex;
+        .w-ai-msg-row.user .w-ai-bubble {
+            background: var(--bg-obsidian);
+            border: 1px solid var(--border-metallic);
+            color: var(--text-pure);
+            border-top-right-radius: 0;
+            box-shadow: 0 0 15px rgba(98, 0, 238, 0.05);
+        }
+
+        .w-ai-msg-row.bot .w-ai-bubble {
+            background: transparent;
+            border: 1px solid var(--text-silver);
+            color: var(--text-pure);
+            border-top-left-radius: 0;
+        }
+
+        /* Fixed Pop-Up Utility Layout */
+        .w-ambient-popup-widget {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .w-widget-pulsing-trigger {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--glow-purple-start), var(--glow-purple-end));
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            transition: background-color 0.2s, transform 0.1s;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(98,0,238,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s ease;
+            position: relative;
         }
 
-        .google-auth-trigger-btn:hover {
-            background-color: #f1f1f1;
+        .w-widget-pulsing-trigger:hover {
+            transform: scale(1.05);
         }
 
-        .google-auth-trigger-btn svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* Security Cover Overlay */
-        .lockout-overlay {
-            background-color: rgba(10, 10, 12, 0.95);
-            backdrop-filter: blur(8px);
+        .w-widget-pulse-ring {
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
+            border-radius: 50%;
+            border: 2px solid var(--glow-purple-start);
+            animation: widgetPulse 2s infinite ease-out;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            display: none;
+        }
+
+        @keyframes widgetPulse {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .w-widget-compact-glass {
+            width: 360px;
+            height: 480px;
+            background: rgba(12, 12, 18, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-metallic);
             border-radius: 12px;
-            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            overflow: hidden;
+            animation: slideUpWidget 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .lockout-card {
+        @keyframes slideUpWidget {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .w-widget-compact-glass.open { display: flex; }
+
+        /* 👑 MODULE 9: EXECUTIVE OVERRIDE INTERCEPT BLOCK */
+        .w-admin-lockout-terminal {
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--crimson-velvet);
+            font-family: monospace;
+            padding: 2rem;
             text-align: center;
-            max-width: 360px;
-            padding: 32px;
         }
 
-        .lockout-card i {
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 16px;
+        .w-admin-layout-frame {
+            padding: 4rem 6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
         }
 
-        .lockout-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
+        .w-admin-flags-row {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .w-btn-flag {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            color: var(--text-pure);
+            padding: 1rem 2rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .w-btn-flag.active-red { border-color: var(--crimson-velvet); background: rgba(207,102,121,0.1); color: var(--crimson-velvet); }
+        .w-btn-flag.active-yellow { border-color: var(--busy-orange); background: rgba(255,145,0,0.1); color: var(--busy-orange); }
+        .w-btn-flag.active-blue { border-color: var(--glow-purple-start); background: rgba(98,0,238,0.1); color: #b388ff; }
+        .w-btn-flag.active-green { border-color: var(--matrix-green); background: rgba(0,230,118,0.1); color: var(--matrix-green); }
+
+        /* ⚙️ MODULE 10: USER CONFIGURATION TERMINAL MODAL */
+        .w-modal-overlay-shroud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(3, 3, 5, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 5000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .w-modal-overlay-shroud.visible { display: flex; }
+
+        .w-luxury-terminal-card {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            width: 500px;
+            border-radius: 16px;
+            padding: 3.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .w-modal-close-trigger {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-silver);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.2s ease;
+        }
+
+        .w-modal-close-trigger:hover { color: var(--text-pure); }
+
+        .w-avatar-uploader-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 1rem auto;
+            border: 2px solid var(--border-metallic);
+            overflow: hidden;
+        }
+
+        .w-avatar-uploader-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .w-avatar-uploader-label-input {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.75);
+            color: var(--text-pure);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 0.35rem 0;
+            cursor: pointer;
+        }
+
+        /* 👥 MODULE 11: CREDITS & ROADMAP COMPONENT */
+        .w-credits-container {
+            padding: 6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5rem;
+        }
+
+        .w-roster-grid-block {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+        }
+
+        .w-roster-card-premium {
+            background: var(--bg-charcoal-card);
+            border: 1px solid var(--border-metallic);
+            padding: 2.5rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .w-roster-role-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--rank-gold);
+        }
+
+        .w-roster-name-string {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-pure);
+        }
+
+        .w-roster-crew-sublist {
+            color: var(--text-silver);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .w-external-dependencies-matrix {
+            border-top: 1px dashed var(--border-metallic);
+            width: 100%;
+            padding-top: 4rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .w-dependency-nameplate {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-pure);
+            margin-bottom: 0.5rem;
+        }
+
+        .w-dependency-attribution-guard {
+            font-size: 0.7rem;
+            font-weight: 300;
+            color: var(--text-silver);
+            letter-spacing: 0.02em;
+        }
+
+        .w-system-support-node {
+            font-size: 0.85rem;
+            font-family: monospace;
+            color: var(--text-silver);
+            border: 1px solid var(--border-metallic);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            background: rgba(0,0,0,0.2);
+            margin-top: 4rem;
+        }
+
+        /* Global System Lockdown Banner */
+        #w-global-lockdown-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
 
+    <div id="w-global-lockdown-screen"></div>
+
+    <div id="w-admin-lockout-alert" class="w-admin-lockout-terminal">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 2rem;"></i>
+        <h2>CRITICAL ALERT: Clearance Level 4 Required</h2>
+        <p style="margin-top: 1rem; letter-spacing: 0.05em;">Your IP address and token access attempt have been flagged and logged.</p>
+    </div>
+
     <div class="premium-header">
         Enterprise Workspace Matrix &bull; Cryptographic Secure Communications &bull; Node Server Active
     </div>
 
-    <div class="navigation-bar">
-        <div class="brand-logo">
-            <i class="fa-solid fa-shield-halved" style="color: var(--gold);"></i> APEX_SYSTEM
+    <header class="w-navbar">
+        <div class="w-brand" onclick="appNavigate('home')">
+            <span class="w-logo-letter">W</span>
+            <span class="w-brand-text">W-SUITE</span>
         </div>
-        <div class="nav-tabs">
-            <button class="tab-button active" onclick="navigateViewport('home')"><i class="fa-solid fa-chart-pie"></i> Core Index</button>
-            <button class="tab-button" onclick="navigateViewport('contacts')"><i class="fa-solid fa-address-book"></i> Directory</button>
-            <button class="tab-button" onclick="navigateViewport('chats')"><i class="fa-solid fa-comment-nodes"></i> Transmission</button>
-            <button class="tab-button" onclick="navigateViewport('account')"><i class="fa-solid fa-fingerprint"></i> Identity</button>
+        <nav class="w-nav-links">
+            <a class="w-nav-item active" onclick="appNavigate('home')">🏠 Home</a>
+            <a class="w-nav-item" onclick="appNavigate('games')">🎮 Games</a>
+            <a class="w-nav-item" onclick="appNavigate('ai')">🤖 AI Bot</a>
+            <a class="w-nav-item" id="nav-link-admin" style="display:none;" onclick="appNavigate('admin')">📊 Status</a>
+            <a class="w-nav-item" onclick="appNavigate('credits')">👥 Credits</a>
+            <a class="w-nav-item" id="nav-link-messages" onclick="appNavigate('messages')">💬 Messages</a>
+        </nav>
+        <div class="w-auth-zone">
+            <button id="w-auth-trigger" class="w-btn-authenticate" onclick="toggleAuthModal(true)">Authenticate</button>
+            
+            <div id="w-profile-avatar-block" style="display: none; align-items: center;" onclick="toggleDropdownMenu(event)">
+                <div id="w-profile-ring" class="w-profile-avatar-container active-logged">
+                    <img id="w-profile-avatar-render" class="w-profile-img" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar">
+                    <span id="w-profile-status-dot" class="w-status-indicator online"></span>
+                </div>
+                
+                <div id="w-profile-dropdown" class="w-dropdown-glass">
+                    <div class="w-dropdown-item" onclick="toggleSettingsModal(true)"><i class="fa-solid fa-gear"></i> Account Settings</div>
+                    <div class="w-dropdown-item" style="color: var(--crimson-velvet);" onclick="executeTerminalDisconnect()"><i class="fa-solid fa-power-off"></i> Disconnect Terminal</div>
+                </div>
+            </div>
         </div>
-        <div class="user-profile-status">
-            <span id="global-status-dot" class="status-dot"></span>
-            <span id="global-status-label">Access Token: Terminated</span>
-        </div>
-    </div>
+    </header>
 
-    <div class="workspace-container">
+    <main id="viewport-home" class="w-viewport active">
+        <section class="w-hero-section">
+            <h1 class="w-hero-headline">W-SUITE // VERSION 2.1</h1>
+            <p class="w-hero-tagline">The definitive digital architecture for private crew operations and software infrastructure.</p>
+            <button class="w-btn-luxury" onclick="appNavigate('messages')">Initialize System Console</button>
+        </section>
 
-        <div id="view-home" class="view-frame active">
-            <h2>System Index Dashboard</h2>
+        <section>
+            <h2 class="w-matrix-title">Subscription Tier Profiles</h2>
+            <div class="w-tiers-grid">
+                <div class="w-tier-card">
+                    <span class="w-tier-rank-badge">Tier I</span>
+                    <h3 class="w-tier-name">Free Access</h3>
+                    <div class="w-tier-price">$0</div>
+                    <ul class="w-tier-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Standard messaging network</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Public server lobby tracking</li>
+                    </ul>
+                </div>
+                <div class="w-tier-card elite">
+                    <span class="w-tier-rank-badge">Tier II</span>
+                    <h3 class="w-tier-name">Elite Tier</h3>
+                    <div class="w-tier-price">$49<span style="font-size:1rem;color:var(--text-silver);">/mo</span></div>
+                    <ul class="w-tier-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Elite custom UI visual overrides</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Private dedicated channel hosting</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Priority computational pipeline allocation</li>
+                    </ul>
+                </div>
+                <div class="w-tier-card cosmos">
+                    <span class="w-tier-rank-badge">Tier III</span>
+                    <h3 class="w-tier-name">Cosmos Tier</h3>
+                    <div class="w-tier-price">$199<span style="font-size:1rem;color:var(--text-silver);">/mo</span></div>
+                    <ul class="w-tier-features">
+                        <li><i class="fa-solid fa-circle-check"></i> Full matrix node distribution authority</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Infinite cloud asset storage quotas</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Beta core deployment access</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="w-teaser-widescreen">
+            <div class="w-blur-ambient-canvas">
+                <div class="w-blur-pill"></div>
+                <div class="w-blur-pill"></div>
+            </div>
+            <div class="w-teaser-badge">🔒 W-MESSAGES — SECURE BETA NODE</div>
+        </section>
+
+        <section class="w-terminal-suggestion-area">
+            <h2 class="w-matrix-title" style="margin-bottom: 2rem;">System Suggestion Terminal</h2>
+            <div class="w-terminal-form">
+                <textarea id="home-suggestion-input" class="w-textarea-charcoal" placeholder="Transmit feature payloads or patch requests directly to the core repository engineering crew..."></textarea>
+                <div style="display:flex; justify-content: space-between; align-items:center;">
+                    <button class="w-btn-luxury" style="padding:0.8rem 2rem; font-size:0.75rem;" onclick="submitSystemSuggestion()">Submit Entry</button>
+                    <div id="suggestion-success" class="w-form-status-msg"><i class="fa-solid fa-circle-check"></i> Payload written to repository successfully.</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="viewport-messages" class="w-viewport">
+        <div class="w-messages-workspace">
+            <div class="w-chat-sidebar">
+                <button class="w-btn-sidebar-action" onclick="promptCreateDirectLine()"><i class="fa-solid fa-plus"></i> Create New Direct Line</button>
+                <div id="w-chat-threads-feed" class="w-threads-scroll-feed">
+                    </div>
+            </div>
+
+            <div class="w-main-chat-viewport">
+                <div id="w-chat-placeholder" class="w-viewport-placeholder">
+                    <i class="fa-solid fa-network-wired" style="font-size: 2rem; color: var(--border-metallic);"></i>
+                    <span>No Active Uplink Thread Established</span>
+                </div>
+
+                <div id="w-chat-active-frame" class="w-active-viewport-container">
+                    <div class="w-chat-stream-header">
+                        <span id="w-chat-header-title-render">Channel Operator Address</span>
+                        <span id="w-chat-header-admin-controls" style="display:none;">
+                            <button class="w-btn-dock-utility" style="border-color:var(--crimson-velvet); color:var(--crimson-velvet);" onclick="togglePermissionsPanel()"><i class="fa-solid fa-shield-halved"></i> Access Matrix</button>
+                        </span>
+                    </div>
+
+                    <div id="w-chat-messages-scroll-box" class="w-chat-historical-stream">
+                        </div>
+
+                    <div class="w-chat-utilities-dock">
+                        <div class="w-input-row-pill">
+                            <input type="text" id="w-chat-input-message-string" class="w-input-text-field" placeholder="Type your message to the crew...">
+                            <button class="w-btn-dock-send" onclick="transmitTextMessage()"><i class="fa-solid fa-arrow-up"></i></button>
+                        </div>
+                        <div class="w-dock-controls-flex">
+                            <div class="w-dock-left-buttons">
+                                <button class="w-btn-dock-utility" onclick="triggerAssetUploadSelection()"><i class="fa-solid fa-paperclip"></i> Upload Assets</button>
+                                <button class="w-btn-dock-utility" onclick="toggleGameStagingDemo()"><i class="fa-solid fa-gamepad"></i> Launch Game Demo</button>
+                            </div>
+                            <input type="file" id="w-chat-hidden-file-input" style="display: none;" onchange="executeAssetPayloadUpload(this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="viewport-games" class="w-viewport">
+        <div class="w-games-container">
+            <div class="w-games-hero-banner">
+                <span class="w-games-badge-online">🟢 LIVE CREW SERVER ONLINE</span>
+                <h1 class="w-games-hero-title">W-NETWORK // OPERATIONS HOST</h1>
+                <div class="w-games-hero-controls">
+                    <button class="w-btn-luxury" style="padding:0.8rem 2rem; font-size:0.75rem;" onclick="navigator.clipboard.writeText('108.61.12.43:27015'); alert('Server IP node saved to clipboard.');">⚡ Launch Direct Connect</button>
+                    <button class="w-btn-luxury" style="background:transparent; border:1px solid var(--border-metallic); padding:0.8rem 2rem; font-size:0.75rem;" onclick="alert('1. Maintain encrypted line verification.\n2. No reverse compilation execution profiling outside testing window.');">📋 View Server Rules</button>
+                </div>
+            </div>
+
+            <div class="w-arcade-grid">
+                <div class="w-game-card" data-tier="free">
+                    <div class="w-game-cover-wrap">
+                        <img class="w-game-cover-img" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=500&q=80" alt="Core Combat">
+                    </div>
+                    <div class="w-game-body">
+                        <div class="w-game-meta-row">
+                            <span class="w-game-developer">Jullian & Owen</span>
+                            <span class="w-game-version-badge">v2.1</span>
+                        </div>
+                        <h3 class="w-game-title">Vortex Combat Tactics</h3>
+                        <div class="w-game-telemetry-row">
+                            <button class="w-btn-luxury" style="padding:0.6rem 1.5rem; font-size:0.7rem;" onclick="executeGameLauncherTransaction('vortex_combat')">Launch Simulation</button>
+                            <span class="w-game-counter-string">📊 <span id="click-count-vortex_combat">0</span> Launched</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-game-card" data-tier="elite">
+                    <div class="w-game-padlock-overlay"><i class="fa-solid fa-lock"></i></div>
+                    <div class="w-game-cover-wrap">
+                        <img class="w-game-cover-img" src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=500&q=80" alt="Grid System">
+                    </div>
+                    <div class="w-game-body">
+                        <div class="w-game-meta-row">
+                            <span class="w-game-developer">Isaac P & Wesley</span>
+                            <span class="w-game-version-badge">v2.1</span>
+                        </div>
+                        <h3 class="w-game-title">Grid Matrix Runner</h3>
+                        <div class="w-game-telemetry-row">
+                            <button class="w-btn-luxury" style="padding:0.6rem 1.5rem; font-size:0.7rem;" onclick="executeGameLauncherTransaction('grid_runner')">Launch Simulation</button>
+                            <span class="w-game-counter-string">📊 <span id="click-count-grid_runner">0</span> Launched</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-game-card" data-tier="cosmos">
+                    <div class="w-game-padlock-overlay"><i class="fa-solid fa-lock"></i></div>
+                    <div class="w-game-cover-wrap">
+                        <img class="w-game-cover-img" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=500&q=80" alt="Sub-orbital">
+                    </div>
+                    <div class="w-game-body">
+                        <div class="w-game-meta-row">
+                            <span class="w-game-developer">Henry Engine Group</span>
+                            <span class="w-game-version-badge">v2.1</span>
+                        </div>
+                        <h3 class="w-game-title">Sub-Orbital Vectored Flight</h3>
+                        <div class="w-game-telemetry-row">
+                            <button class="w-btn-luxury" style="padding:0.6rem 1.5rem; font-size:0.7rem;" onclick="executeGameLauncherTransaction('sub_orbital')">Launch Simulation</button>
+                            <span class="w-game-counter-string">📊 <span id="click-count-sub_orbital">0</span> Launched</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-developer-staging-portal">
+                <h2 class="w-matrix-title" style="text-align: left; margin-bottom: 0;">Developer Staging Portal Workspace</h2>
+                <div id="w-staging-frame-container" class="w-staging-iframe-wrap">
+                    <iframe id="w-staging-sandbox-build-target" class="w-staging-iframe" src="about:blank"></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <main id="viewport-ai" class="w-viewport">
+        <div class="w-ai-station-canvas">
+            <h2 class="w-matrix-title" style="text-align:left; margin-bottom: 1.5rem;">Wwebsite AI Bot Terminal</h2>
+            <div id="w-ai-station-feed" class="w-ai-feed-container">
+                <div class="w-ai-msg-row bot">
+                    <div class="w-ai-bubble">Identity matrix sequence calibrated. Processing interface query sequences. Ready for operational commands.</div>
+                </div>
+            </div>
+            <div class="w-input-row-pill" style="background: var(--bg-charcoal-card); width: 100%;">
+                <input type="text" id="w-ai-station-text-field" class="w-input-text-field" placeholder="Query the Wwebsite AI Bot core matrix engine...">
+                <button class="w-btn-dock-send" onclick="transmitAiStationPayload()"><i class="fa-solid fa-bolt"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <main id="viewport-admin" class="w-viewport">
+        <div class="w-admin-layout-frame">
+            <h2>Executive System Override Command Center</h2>
+            
             <div class="dashboard-grid">
                 <div class="metric-card">
-                    <div class="metric-title">Authenticated Identity</div>
-                    <div id="dash-user-val" class="metric-value" style="font-size: 1.25rem; line-height: 2.3rem; color: var(--text-secondary);">No Identity Token Found</div>
+                    <div class="metric-title">Total Registered Users</div>
+                    <div id="admin-stat-users" class="metric-value">00</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-title">Active Database Records</div>
-                    <div id="dash-contacts-count" class="metric-value">00</div>
+                    <div class="metric-title">Active Transmission Matrices</div>
+                    <div id="admin-stat-chats" class="metric-value">00</div>
                 </div>
                 <div class="metric-card">
-                    <div class="metric-title">Active Transmission Streams</div>
-                    <div id="dash-chats-count" class="metric-value">00</div>
+                    <div class="metric-title">Total System Suggestions</div>
+                    <div id="admin-stat-suggestions" class="metric-value">00</div>
                 </div>
             </div>
-            <div style="background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; flex: 1;">
-                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--gold);">Operational Protocol Verification</h3>
-                <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; max-width: 800px;">
-                    Welcome to the Apex Core Workspace Terminal. This system requires identity authorization via the Secure Cloud Token Access channel before communication nodes become available. Initialize operations by accessing the identity management framework below.
-                </p>
-                <button class="prime-button" style="margin-top: 24px;" onclick="navigateViewport('account')">Initialize Authorization Sequence</button>
-            </div>
-        </div>
 
-        <div id="view-contacts" class="view-frame">
-            <h2>Directory Node Management</h2>
-            
             <div class="control-input-wrapper">
-                <div class="input-inline-row">
-                    <div class="field-block">
-                        <label>Registry Label / Name</label>
-                        <input type="text" id="reg-name" placeholder="E.g., Jonathan Vance">
-                    </div>
-                    <div class="field-block">
-                        <label>Secure Routing Email</label>
-                        <input type="email" id="reg-email" placeholder="E.g., vance@apex.io">
-                    </div>
-                    <button class="prime-button" onclick="executeDirectoryInsertion()">Create Entry</button>
+                <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-silver); margin-bottom: 1.5rem;">System Status Flags</h3>
+                <div class="w-admin-flags-row">
+                    <button id="flag-btn-OFFLINE" class="w-btn-flag" onclick="writeSystemFlag('OFFLINE')">[🔴 SHUTDOWN]</button>
+                    <button id="flag-btn-MAINTENANCE" class="w-btn-flag" onclick="writeSystemFlag('MAINTENANCE')">[🟡 UPDATING]</button>
+                    <button id="flag-btn-BETA" class="w-btn-flag" onclick="writeSystemFlag('BETA')">[🔵 TESTING]</button>
+                    <button id="flag-btn-LIVE" class="w-btn-flag" onclick="writeSystemFlag('LIVE')">[🟢 LIVE]</button>
                 </div>
             </div>
 
-            <div class="data-table-container">
-                <div style="padding: 20px 24px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; font-weight: bold; border-bottom: 1px solid var(--border-color);">
-                    Registered Communication Nodes
-                </div>
-                <div id="directory-rows-target">
-                    </div>
+            <div class="control-input-wrapper" style="border-color: var(--crimson-velvet);">
+                <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--crimson-velvet); margin-bottom: 1rem;">Global Network Hard Purge</h3>
+                <p style="color: var(--text-silver); font-size: 0.9rem; margin-bottom: 2rem;">Executing this transaction instantly forces a hard un-cached reload across all connected instances globally.</p>
+                <button class="w-btn-luxury" style="background: var(--crimson-velvet); box-shadow: 0 4px 20px rgba(207,102,121,0.3);" onclick="executeGlobalNetworkRefreshProtocol()">REFRESH EVERYTHING GLOBALLY</button>
             </div>
         </div>
+    </main>
 
-        <div id="view-chats" class="view-frame">
-            <div id="matrix-lockout-gate" class="lockout-overlay">
-                <div class="lockout-card">
-                    <i class="fa-solid fa-lock-open"></i>
-                    <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Encryption Node Standby</h4>
-                    <p>Cryptographic transmission channels remain offline until identity validation keys are provided via Google Secure Account Authorization.</p>
+    <main id="viewport-credits" class="w-viewport">
+        <div class="w-credits-container">
+            <div style="text-align: center;">
+                <h1 class="w-hero-headline" style="font-size: 2.2rem; margin-bottom: 0.5rem;">Wwebsite Engineering & Operations Command</h1>
+                <p style="color: var(--text-silver); font-size: 0.95rem; letter-spacing: 0.05em;">The core developmental infrastructure roster behind the W-SUITE // V2.1 network.</p>
+            </div>
+
+            <div class="w-roster-grid-block">
+                <div class="w-roster-card-premium" style="border-color: var(--rank-gold);">
+                    <span class="w-roster-role-tag">👑 Executive Master Command</span>
+                    <h3 class="w-roster-name-string">Brody Williams</h3>
+                    <p class="w-roster-crew-sublist">Lead Architect & System Owner</p>
+                </div>
+                <div class="w-roster-card-premium">
+                    <span class="w-roster-role-tag">⚙️ Chief Executive Officer</span>
+                    <h3 class="w-roster-name-string">Jase Peaslee</h3>
+                    <p class="w-roster-crew-sublist">Co-Founder / Database Architect</p>
+                </div>
+                <div class="w-roster-card-premium">
+                    <span class="w-roster-role-tag">🛡️ Content Security & Moderation Staff</span>
+                    <h3 class="w-roster-name-string">Network Integrity Team</h3>
+                    <p class="w-roster-crew-sublist">Ammar &bull; Brayden &bull; DJ</p>
+                </div>
+                <div class="w-roster-card-premium">
+                    <span class="w-roster-role-tag">🎨 Creative Design & Interactive Mechanics Team</span>
+                    <h3 class="w-roster-name-string">Interface Interaction Unit</h3>
+                    <p class="w-roster-crew-sublist">Jullian &bull; Owen &bull; Isaac P &bull; Wesley &bull; Henry</p>
                 </div>
             </div>
 
-            <div class="messaging-split-layout">
-                <div class="sidebar-channels">
-                    <div class="channels-header">Available Communication Nodes</div>
-                    <div id="sidebar-threads-target" class="threads-scroll-stack">
-                        </div>
-                    <div class="channel-creation-footer">
-                        <input type="text" id="new-group-title" placeholder="Enter Group Matrix Label...">
-                        <button class="prime-button btn-dark-style" style="justify-content: center;" onclick="executeGroupChannelGenesis()">
-                            <i class="fa-solid fa-folder-plus"></i> Instantiate Group Channel
-                        </button>
-                    </div>
+            <div class="w-external-dependencies-matrix">
+                <h4 class="w-dependency-nameplate">Gemini</h4>
+                <p class="w-dependency-attribution-guard">Credited solely for providing the computational language infrastructure powering the Wwebsite AI Bot integration.</p>
+            </div>
+
+            <div class="w-system-support-node">
+                wwebsiteofficial@outlook.com
+            </div>
+        </div>
+    </main>
+
+    <div class="w-ambient-popup-widget">
+        <div id="w-ambient-chat-window" class="w-widget-compact-glass">
+            <div class="w-chat-stream-header" style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-metallic);">
+                <span style="font-size:0.85rem; letter-spacing:0.05em;"><i class="fa-solid fa-robot" style="color:var(--gold);"></i> W-BOT MINI</span>
+            </div>
+            <div id="w-widget-chat-logs-container" class="w-chat-historical-stream" style="padding:1.5rem; font-size:0.85rem; gap:1rem;">
+                <div class="w-ai-msg-row bot">
+                    <div class="w-ai-bubble" style="padding:0.8rem 1.2rem;">How can I query platform nodes for you?</div>
                 </div>
-
-                <div class="active-chat-viewport">
-                    <div id="active-chat-title-node" class="active-chat-header">Awaiting Terminal Selection Sequence...</div>
-                    
-                    <div id="chat-historical-stream-target" class="chat-historical-stream">
-                        </div>
-
-                    <div class="input-interaction-dock">
-                        <input type="text" id="chat-payload-message-field" placeholder="Input cryptographic text payloads here...">
-                        <button class="prime-button" onclick="executePayloadTransmission()">
-                            Transmit <i class="fa-solid fa-paper-plane" style="font-size: 0.8rem;"></i>
-                        </button>
-                    </div>
+            </div>
+            <div class="w-chat-utilities-dock" style="padding: 1rem 1.5rem; border-top:1px solid var(--border-metallic);">
+                <div class="w-input-row-pill" style="padding: 0.25rem 1rem; gap:0.5rem;">
+                    <input type="text" id="w-widget-chat-input-field" class="w-input-text-field" style="font-size:0.85rem;" placeholder="Query the Wwebsite AI Bot...">
+                    <button class="w-btn-dock-send" style="width:30px; height:30px; font-size:0.75rem;" onclick="transmitWidgetAiPayload()"><i class="fa-solid fa-arrow-up"></i></button>
                 </div>
             </div>
         </div>
-
-        <div id="view-account" class="view-frame">
-            <div id="unauthenticated-gate-panel" class="identity-gate-layer">
-                <div class="gate-icon"><i class="fa-solid fa-fingerprint"></i></div>
-                <h3 style="font-size: 1.5rem; font-weight: 700;">Account Authentication</h3>
-                <p class="gate-description">Access to encryption sequences, directory manipulation, and datastore fields requires validation through the organizational Google Access token gateway.</p>
-                
-                <button class="google-auth-trigger-btn" onclick="executeSimulatedGoogleAuthentication()">
-                    <svg viewBox="0 0 24 24" width="100%" height="100%">
-                        <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3A11.959 11.959 0 0 0 12 0C7.309 0 3.255 2.545 1.055 6.327l4.21 3.438z"/>
-                        <path fill="#4285F4" d="M23.455 12.273c0-.818-.073-1.609-.209-2.382H12v4.564h6.427a5.51 5.51 0 0 1-2.391 3.618v3.009h3.855c2.254-2.082 3.564-5.145 3.564-8.809z"/>
-                        <path fill="#FBBC05" d="M5.266 14.235L1.055 17.673A11.959 11.959 0 0 0 12 24c3.245 0 5.973-1.082 7.964-2.918l-3.855-3.009c-1.09.736-2.482 1.182-4.11 1.182-3.218 0-5.945-2.145-6.918-5.027z"/>
-                        <path fill="#34A853" d="M1.055 6.327a11.838 11.838 0 0 0 0 11.346l4.21-3.437c-.227-.673-.355-1.39-.355-2.136 0-.745.127-1.463.355-2.136L1.055 6.327z"/>
-                    </svg>
-                    Continue Authenticating with Google
-                </button>
-            </div>
-
-            <div id="authenticated-profile-panel" class="identity-gate-layer" style="display: none; max-width: 540px;">
-                <div class="gate-icon" style="color: #2ecc71;"><i class="fa-solid fa-circle-check"></i></div>
-                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 6px;">Secure Access Session Active</h3>
-                <p id="profile-email-label" style="color: var(--gold); font-family: monospace; font-size: 0.9rem; margin-bottom: 24px;">operator@apex.io</p>
-                
-                <div style="background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 32px;">
-                    <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;">Verified Operator Label</div>
-                    <div id="profile-name-label" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 12px;">Enterprise Administrator</div>
-                    <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;">Token Status Check</div>
-                    <div style="font-family: monospace; font-size: 0.85rem; color: #2ecc71;">SHA-256 VALIDATED_RSA_KEY</div>
-                </div>
-
-                <button class="prime-button btn-dark-style" style="width: 100%; justify-content: center;" onclick="executeSessionTermination()">
-                    Terminate Secure Connection
-                </button>
-            </div>
+        
+        <div class="w-widget-pulsing-trigger" onclick="toggleAmbientWidgetWindow()">
+            <div id="w-widget-glow-ring" class="w-widget-pulse-ring"></div>
+            <i class="fa-solid fa-bolt" style="font-size: 1.25rem; color: #fff;"></i>
         </div>
-
     </div>
 
-    <script>
-        // System Data Arrays
-        let activeTokenUser = null;
-        let selectedCommunicationNodeId = null;
 
-        let contactsRegistry = [];
-        let communicationMatrixThreads = [];
-
-        // Switching Viewports Logic Routine
-        function navigateViewport(targetFrameId) {
-            document.querySelectorAll('.view-frame').forEach(frame => frame.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    <div id="w-auth-modal" class="w-modal-overlay-shroud">
+        <div class="w-luxury-terminal-card">
+            <button class="w-modal-close-trigger" onclick="toggleAuthModal(false)"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-size:1.1rem; letter-spacing:0.15em; text-transform:uppercase; text-align:center; margin:0; color:var(--text-pure);">Access Authentication Gateway</h2>
             
-            document.getElementById(`view-${targetFrameId}`).classList.add('active');
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+                <input type="email" id="auth-email" placeholder="SECURE MAIL ROUTING ADDRESS" style="background:var(--bg-obsidian); border:1px solid var(--border-metallic); padding:1rem; color:#fff; border-radius:4px; outline:none; font-size:0.85rem; font-family:monospace;">
+                <input type="password" id="auth-password" placeholder="SECURE DEPLOYMENT ACCESS PASS" style="background:var(--bg-obsidian); border:1px solid var(--border-metallic); padding:1rem; color:#fff; border-radius:4px; outline:none; font-size:0.85rem; font-family:monospace;">
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:0.75rem; margin-top:0.5rem;">
+                <button class="w-btn-luxury" style="font-size:0.75rem; padding:1rem;" onclick="executeEmailAuthentication('login')">Sign In Via Mail Terminal</button>
+                <button class="w-btn-luxury" style="font-size:0.75rem; padding:1rem; background:transparent; border:1px solid var(--border-metallic); box-shadow:none;" onclick="executeEmailAuthentication('register')">Register New Operator Identity</button>
+                <div style="text-align:center; color:var(--text-silver); font-size:0.75rem; letter-spacing:0.05em; margin: 0.5rem 0;">OR</div>
+                <button class="w-btn-luxury" style="font-size:0.75rem; padding:1rem; background:#2f2f2f; box-shadow:none; display:flex; align-items:center; justify-content:center; gap:0.75rem;" onclick="executeMicrosoftIdentityAuthentication()">
+                    <i class="fa-brands fa-microsoft"></i> Connect Microsoft Active Directory
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="w-settings-modal" class="w-modal-overlay-shroud">
+        <div class="w-luxury-terminal-card">
+            <button class="w-modal-close-trigger" onclick="toggleSettingsModal(false)"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-size:1.1rem; letter-spacing:0.15em; text-transform:uppercase; text-align:center; margin:0; color:var(--text-pure);">Operator Profile Configuration</h2>
             
-            // Highlight button
-            const sourceButton = Array.from(document.querySelectorAll('.tab-button')).find(btn => btn.getAttribute('onclick').includes(targetFrameId));
-            if (sourceButton) sourceButton.classList.add('active');
-        }
+            <div class="w-avatar-uploader-circle">
+                <img id="w-settings-avatar-preview" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar">
+                <label for="w-avatar-file-selector" class="w-avatar-uploader-label-input">Upload</label>
+                <input type="file" id="w-avatar-file-selector" style="display:none;" onchange="executeAvatarImageCloudUpload(this)">
+            </div>
 
-        // Luxury Google Simulated Authentication Routine
-        function executeSimulatedGoogleAuthentication() {
-            // Generate valid cryptographic dummy structure
-            activeTokenUser = {
-                name: "Enterprise System Administrator",
-                email: "admin.operator@enterprise-core.com"
-            };
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+                <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-silver);">Display Operational Handle</label>
+                    <input type="text" id="settings-display-name" style="background:var(--bg-obsidian); border:1px solid var(--border-metallic); padding:0.8rem; color:#fff; border-radius:4px; outline:none; font-size:0.9rem;">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-silver);">Presence Matrix Coordinates</label>
+                    <select id="settings-presence-status" style="background:var(--bg-obsidian); border:1px solid var(--border-metallic); padding:0.8rem; color:#fff; border-radius:4px; outline:none; font-size:0.9rem;">
+                        <option value="online">Online Terminal Active</option>
+                        <option value="busy">Busy // Operational Intercept</option>
+                        <option value="offline">Invisible Protocol Standby</option>
+                    </select>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <label style="font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-silver);">System Access Tier Rank</label>
+                    <select id="settings-subscription-tier" style="background:var(--bg-obsidian); border:1px solid var(--border-metallic); padding:0.8rem; color:#fff; border-radius:4px; outline:none; font-size:0.9rem;">
+                        <option value="free">Tier I // Standard Access</option>
+                        <option value="elite">Tier II // Elite Authorization</option>
+                        <option value="cosmos">Tier III // Cosmos Integration</option>
+                    </select>
+                </div>
+            </div>
 
-            // Propagate through DOM Interface
-            document.getElementById("unauthenticated-gate-panel").style.display = "none";
-            document.getElementById("authenticated-profile-panel").style.display = "block";
+            <button class="w-btn-luxury" style="font-size:0.75rem; padding:1rem; margin-top:0.5rem;" onclick="saveOperatorProfileModifications()">💾 Save Profile Changes</button>
+        </div>
+    </div>
+
+    <div id="w-permissions-modal" class="w-modal-overlay-shroud">
+        <div class="w-luxury-terminal-card" style="width: 450px;">
+            <button class="w-modal-close-trigger" onclick="document.getElementById('w-permissions-modal').classList.remove('visible')"><i class="fa-solid fa-xmark"></i></button>
+            <h2 style="font-size:1.1rem; letter-spacing:0.15em; text-transform:uppercase; text-align:center; margin:0; color:var(--text-pure);">Access Control Matrix</h2>
+            <div id="w-permissions-members-list" style="display:flex; flex-direction:column; gap:1rem;">
+                </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, OAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, push, update, onValue, off, remove, onChildAdded, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        // CONFIGURATION DATASTORE OBJECT (Replace with production credentials from Console)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Native Modular System Access Tokens
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+        const storage = getStorage(app);
+
+        // Global Architectural Reference Frames
+        let localUserRecord = null;
+        let activeChatId = null;
+        let activeChatListenerRef = null;
+        let systemConfigListenerRef = null;
+
+        // Exposed global mappings to interface with procedural HTML inline listeners
+        window.appNavigate = appNavigate;
+        window.toggleAuthModal = toggleAuthModal;
+        window.toggleDropdownMenu = toggleDropdownMenu;
+        window.toggleSettingsModal = toggleSettingsModal;
+        window.executeEmailAuthentication = executeEmailAuthentication;
+        window.executeMicrosoftIdentityAuthentication = executeMicrosoftIdentityAuthentication;
+        window.executeTerminalDisconnect = executeTerminalDisconnect;
+        window.saveOperatorProfileModifications = saveOperatorProfileModifications;
+        window.executeAvatarImageCloudUpload = executeAvatarImageCloudUpload;
+        window.submitSystemSuggestion = submitSystemSuggestion;
+        window.promptCreateDirectLine = promptCreateDirectLine;
+        window.selectChatThread = selectChatThread;
+        window.transmitTextMessage = transmitTextMessage;
+        window.triggerAssetUploadSelection = triggerAssetUploadSelection;
+        window.executeAssetPayloadUpload = executeAssetPayloadUpload;
+        window.toggleGameStagingDemo = toggleGameStagingDemo;
+        window.executeGameLauncherTransaction = executeGameLauncherTransaction;
+        window.transmitAiStationPayload = transmitAiStationPayload;
+        window.transmitWidgetAiPayload = transmitWidgetAiPayload;
+        window.toggleAmbientWidgetWindow = toggleAmbientWidgetWindow;
+        window.writeSystemFlag = writeSystemFlag;
+        window.executeGlobalNetworkRefreshProtocol = executeGlobalNetworkRefreshProtocol;
+        window.executeMicroErasureTransaction = executeMicroErasureTransaction;
+        window.togglePermissionsPanel = togglePermissionsPanel;
+        window.executeMuteUserToggle = executeMuteUserToggle;
+        window.executeKickUser = executeKickUser;
+
+        // 📐 MODULE 2: REAL-TIME SECURE AUTH MATRIX ROUTINE
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // Identity verified
+                onValue(ref(database, `users/${user.uid}`), (snapshot) => {
+                    const data = snapshot.val();
+                    if (data) {
+                        localUserRecord = { uid: user.uid, ...data };
+                        synchronizeAuthenticatedUi();
+                    } else {
+                        // Bootstrap default baseline object model
+                        const baseModel = {
+                            displayName: user.displayName || "Operator Guest",
+                            email: user.email,
+                            avatarUrl: user.photoURL || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80",
+                            presenceStatus: "online",
+                            subscriptionTier: "free"
+                        };
+                        set(ref(database, `users/${user.uid}`), baseModel);
+                    }
+                });
+
+                // Establish Route Access Parameters for Executive Security Gates
+                if (user.email === "brodywilliams0226@gmail.com") {
+                    document.getElementById("nav-link-admin").style.display = "flex";
+                    initializeAdminMetricsSuite();
+                } else {
+                    document.getElementById("nav-link-admin").style.display = "none";
+                }
+
+                // Remove Messaging Shroud Barriers
+                document.getElementById("matrix-lockout-gate").style.display = "none";
+                initializeMessagingCoreUplinks();
+            } else {
+                // Identity verification token dropped
+                localUserRecord = null;
+                synchronizeDeauthenticatedUi();
+                
+                // Active route gate enforcement
+                const visibleViewport = document.querySelector('.w-viewport.active').id;
+                if (visibleViewport === 'viewport-messages' || visibleViewport === 'viewport-admin') {
+                    appNavigate('home');
+                }
+            }
+        });
+
+        // Track global layout state variables via central database tracking node
+        if (systemConfigListenerRef) off(ref(database, 'system'));
+        onValue(ref(database, 'system'), (snapshot) => {
+            const sys = snapshot.val() || { status: "LIVE", globalReset: 0 };
             
-            document.getElementById("profile-name-label").innerText = activeTokenUser.name;
-            document.getElementById("profile-email-label").innerText = activeTokenUser.email;
-            document.getElementById("dash-user-val").innerText = `${activeTokenUser.name} <${activeTokenUser.email}>`;
-            document.getElementById("dash-user-val").style.color = "var(--text-primary)";
+            // Execute global reload pipeline instructions on mismatch detection
+            if (window.appSystemTimestampCache && window.appSystemTimestampCache !== sys.globalReset) {
+                window.location.reload(true);
+            }
+            window.appSystemTimestampCache = sys.globalReset;
 
-            // Shift System Status Bar Parameters
-            const dot = document.getElementById("global-status-dot");
-            const label = document.getElementById("global-status-label");
-            dot.classList.add("active");
-            label.innerText = "Access Token: Active";
-            label.style.color = "var(--text-primary)";
+            const screen = document.getElementById("w-global-lockdown-screen");
+            if (sys.status === "OFFLINE") {
+                screen.style.display = "flex";
+                screen.innerHTML = "W-Suite System Offline — Operations Terminated.";
+                return;
+            } else if (sys.status === "MAINTENANCE") {
+                screen.style.display = "flex";
+                screen.innerHTML = "Wwebsite is currently updating platform dependencies.";
+                return;
+            } else if (sys.status === "BETA") {
+                if (!auth.currentUser || auth.currentUser.email !== "brodywilliams0226@gmail.com") {
+                    screen.style.display = "flex";
+                    screen.innerHTML = "Closed Beta Staging Environment Mode Active.";
+                    return;
+                }
+            }
+            screen.style.display = "none";
 
-            // Lift Encryption Block Guards on Chats
-            document.getElementById("matrix-lockout-gate").style.display = "none";
+            // Sync structural dashboard indicator settings controls
+            document.querySelectorAll('.w-btn-flag').forEach(b => b.className = 'w-btn-flag');
+            const targetBtn = document.getElementById(`flag-btn-${sys.status}`);
+            if (targetBtn) {
+                const colorMapping = { OFFLINE: 'active-red', MAINTENANCE: 'active-yellow', BETA: 'active-blue', LIVE: 'active-green' };
+                targetBtn.classList.add(colorMapping[sys.status]);
+            }
+        });
 
-            synchronizeCounters();
-        }
+        // Real-Time Global Database Telemetry Counter Observers
+        onValue(ref(database, 'analytics/games'), (snapshot) => {
+            const data = snapshot.val() || {};
+            ['vortex_combat', 'grid_runner', 'sub_orbital'].forEach(gId => {
+                document.getElementById(`click-count-${gId}`).innerText = data[gId]?.activeClickCount || 0;
+            });
+        });
 
-        function executeSessionTermination() {
-            activeTokenUser = null;
-
-            document.getElementById("unauthenticated-gate-panel").style.display = "block";
-            document.getElementById("authenticated-profile-panel").style.display = "none";
-            document.getElementById("dash-user-val").innerText = "No Identity Token Found";
-            document.getElementById("dash-user-val").style.color = "var(--text-secondary)";
-
-            const dot = document.getElementById("global-status-dot");
-            const label = document.getElementById("global-status-label");
-            dot.classList.remove("active");
-            label.innerText = "Access Token: Terminated";
-            label.style.color = "var(--text-secondary)";
-
-            document.getElementById("matrix-lockout-gate").style.display = "flex";
-
-            selectedCommunicationNodeId = null;
-            document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
-            document.getElementById("chat-historical-stream-target").innerHTML = "";
-
-            synchronizeCounters();
-            renderThreadTree();
-        }
-
-        // Contacts Architecture Array Modification Handlers
-        function executeDirectoryInsertion() {
-            const nameField = document.getElementById("reg-name");
-            const emailField = document.getElementById("reg-email");
-
-            if (!nameField.value.trim() || !emailField.value.trim()) {
-                alert("Matrix Incomplete: Parameter inputs require payload structures before insertion.");
+        // 📐 MODULE 2 UI GRAPHICAL HOOK INTERACTION ENGINE
+        function appNavigate(viewportKey) {
+            // Router security intercept checks
+            if (!auth.currentUser && (viewportKey === 'messages' || viewportKey === 'ai')) {
+                alert("Security Clearance Error: Session tokens must initialize before entering encrypted messaging sectors.");
+                toggleAuthModal(true);
+                return;
+            }
+            if (viewportKey === 'admin' && (!auth.currentUser || auth.currentUser.email !== 'brodywilliams0226@gmail.com')) {
+                document.getElementById("w-admin-lockout-alert").style.display = "flex";
+                setTimeout(() => { document.getElementById("w-admin-lockout-alert").style.display = "none"; }, 4000);
                 return;
             }
 
-            const generatedId = "node_tr_" + Date.now();
-            const contactObject = {
-                id: generatedId,
-                name: nameField.value.trim(),
-                email: emailField.value.trim()
+            document.querySelectorAll('.w-viewport').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.w-nav-item').forEach(n => n.classList.remove('active'));
+
+            document.getElementById(`viewport-${viewportKey}`).classList.add('active');
+            
+            // Re-map structural highlighting configurations
+            const navLinkMap = { home: 0, games: 1, ai: 2, admin: 3, credits: 4, messages: 5 };
+            const navItems = document.querySelectorAll('.w-nav-item');
+            if (navLinkMap[viewportKey] !== undefined) {
+                navItems[navLinkMap[viewportKey]].classList.add('active');
+            }
+            
+            if (viewportKey === 'messages') {
+                initializeMessagingCoreUplinks();
+            }
+        }
+
+        function toggleAuthModal(isVisible) {
+            document.getElementById("w-auth-modal").style.display = isVisible ? "flex" : "none";
+        }
+
+        function toggleDropdownMenu(event) {
+            event.stopPropagation();
+            document.getElementById("w-profile-dropdown").classList.toggle("show");
+        }
+
+        document.addEventListener("click", () => {
+            const d = document.getElementById("w-profile-dropdown");
+            if (d) d.classList.remove("show");
+        });
+
+        function toggleSettingsModal(isVisible) {
+            if (isVisible && localUserRecord) {
+                document.getElementById("settings-display-name").value = localUserRecord.displayName || "";
+                document.getElementById("settings-presence-status").value = localUserRecord.presenceStatus || "online";
+                document.getElementById("settings-subscription-tier").value = localUserRecord.subscriptionTier || "free";
+                document.getElementById("w-settings-avatar-preview").src = localUserRecord.avatarUrl;
+            }
+            document.getElementById("w-settings-modal").style.display = isVisible ? "flex" : "none";
+        }
+
+        function synchronizeAuthenticatedUi() {
+            toggleAuthModal(false);
+            document.getElementById("w-auth-trigger").style.display = "none";
+            document.getElementById("w-profile-avatar-block").style.display = "flex";
+            document.getElementById("w-profile-avatar-render").src = localUserRecord.avatarUrl;
+            
+            const dot = document.getElementById("w-profile-status-dot");
+            dot.className = `w-status-indicator ${localUserRecord.presenceStatus}`;
+            
+            document.getElementById("global-status-dot").className = `status-dot active`;
+            document.getElementById("global-status-label").innerText = `Token Active: ${localUserRecord.displayName}`;
+            document.getElementById("dash-user-val").innerText = localUserRecord.email;
+        }
+
+        function synchronizeDeauthenticatedUi() {
+            document.getElementById("w-auth-trigger").style.display = "block";
+            document.getElementById("w-profile-avatar-block").style.display = "none";
+            document.getElementById("global-status-dot").className = `status-dot`;
+            document.getElementById("global-status-label").innerText = "Access Token: Terminated";
+            document.getElementById("dash-user-val").innerText = "No Identity Token Found";
+        }
+
+        // Authentication Method Routines
+        async function executeEmailAuthentication(strategy) {
+            const email = document.getElementById("auth-email").value.trim();
+            const password = document.getElementById("auth-password").value.trim();
+            if (!email || !password) return alert("All access code parameter fields are mandatory.");
+
+            try {
+                if (strategy === 'login') {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    const credentials = await createUserWithEmailAndPassword(auth, email, password);
+                    await set(ref(database, `users/${credentials.user.uid}`), {
+                        displayName: "New Operator",
+                        email: email,
+                        avatarUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80",
+                        presenceStatus: "online",
+                        subscriptionTier: "free"
+                    });
+                }
+                toggleAuthModal(false);
+            } catch (err) {
+                alert(`Authentication Exception Pipeline: ${err.message}`);
+            }
+        }
+
+        async function executeMicrosoftIdentityAuthentication() {
+            const provider = new OAuthProvider('microsoft.com');
+            try {
+                await signInWithPopup(auth, provider);
+                toggleAuthModal(false);
+            } catch (err) {
+                alert(`Microsoft Active Directory Handshake Failed: ${err.message}`);
+            }
+        }
+
+        async function executeTerminalDisconnect() {
+            if (auth.currentUser) {
+                await update(ref(database, `users/${auth.currentUser.uid}`), { presenceStatus: "offline" });
+                await signOut(auth);
+            }
+        }
+
+        // ⚙️ MODULE 10: USER CONFIGURATION & PROFILE PICTURE UPLOADER
+        async function saveOperatorProfileModifications() {
+            if (!auth.currentUser) return;
+            const newName = document.getElementById("settings-display-name").value.trim();
+            const newStatus = document.getElementById("settings-presence-status").value;
+            const newTier = document.getElementById("settings-subscription-tier").value;
+
+            await update(ref(database, `users/${auth.currentUser.uid}`), {
+                displayName: newName || "Anonymous Operator",
+                presenceStatus: newStatus,
+                subscriptionTier: newTier
+            });
+            toggleSettingsModal(false);
+        }
+
+        async function executeAvatarImageCloudUpload(inputElement) {
+            const localFile = inputElement.files[0];
+            if (!localFile || !auth.currentUser) return;
+
+            const referenceLocation = storageRef(storage, `avatars/${auth.currentUser.uid}`);
+            try {
+                const snapshot = await uploadBytes(referenceLocation, localFile);
+                const cloudDownloadUrl = await getDownloadURL(snapshot.ref);
+                
+                await update(ref(database, `users/${auth.currentUser.uid}`), { avatarUrl: cloudDownloadUrl });
+                document.getElementById("w-settings-avatar-preview").src = cloudDownloadUrl;
+            } catch (err) {
+                alert(`Cloud Storage Upload Subsystem Failure: ${err.message}`);
+            }
+        }
+
+        // 🏠 MODULE 3: THE SYSTEM SUGGESTION TERMINAL TRANSACTION
+        async function submitSystemSuggestion() {
+            const rawText = document.getElementById("home-suggestion-input").value.trim();
+            if (!rawText) return alert("Suggestion string payload cannot evaluate to null.");
+
+            const referenceCollection = ref(database, 'suggestions');
+            await push(referenceCollection, {
+                text: rawText,
+                timestamp: Date.now(),
+                userId: auth.currentUser ? auth.currentUser.uid : 'guest'
+            });
+
+            document.getElementById("home-suggestion-input").value = "";
+            const feedbackText = document.getElementById("suggestion-success");
+            feedbackText.style.display = "inline-flex";
+            setTimeout(() => { feedbackText.style.display = "none"; }, 4000);
+        }
+
+        // 💬 MODULE 4: SECURE W-MESSAGES REVOLUTION ENGINE
+        function initializeMessagingCoreUplinks() {
+            onValue(ref(database, 'chats'), (snapshot) => {
+                const feedWrapper = document.getElementById("w-chat-threads-feed");
+                feedWrapper.innerHTML = "";
+                const records = snapshot.val() || {};
+                
+                let threadsFound = false;
+                for (const trackingChatId in records) {
+                    const meta = records[trackingChatId].metadata;
+                    if (!meta) continue;
+
+                    // Visibility access restriction queries
+                    if (meta.creatorId === auth.currentUser.uid || meta.targetId === auth.currentUser.uid) {
+                        threadsFound = true;
+                        const structuralRowNode = document.createElement("div");
+                        structuralRowNode.className = `w-chat-row ${activeChatId === trackingChatId ? 'selected' : ''}`;
+                        structuralRowNode.onclick = () => selectChatThread(trackingChatId);
+
+                        // Async User Lookup for Presence Mapping
+                        const alternateUserId = meta.creatorId === auth.currentUser.uid ? meta.targetId : meta.creatorId;
+                        
+                        structuralRowNode.innerHTML = `
+                            <div class="w-avatar-presence-wrapper">
+                                <img id="avatar-row-${trackingChatId}" class="w-row-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80">
+                                <span id="presence-row-${trackingChatId}" class="w-status-indicator offline"></span>
+                            </div>
+                            <div class="w-row-info">
+                                <div class="w-row-header-meta">
+                                    <span id="name-row-${trackingChatId}" class="w-row-username">Querying Identity...</span>
+                                </div>
+                                <span class="w-row-snippet">${meta.title || 'Direct Cryptographic Uplink Link'}</span>
+                            </div>
+                        `;
+
+                        feedWrapper.appendChild(structuralRowNode);
+                        hookRealTimePresenceObserver(alternateUserId, trackingChatId);
+                    }
+                }
+            });
+        }
+
+        function hookRealTimePresenceObserver(targetUserId, threadElementId) {
+            onValue(ref(database, `users/${targetUserId}`), (snapshot) => {
+                const record = snapshot.val();
+                if (record) {
+                    const avatarNode = document.getElementById(`avatar-row-${threadElementId}`);
+                    const presenceNode = document.getElementById(`presence-row-${threadElementId}`);
+                    const labelNode = document.getElementById(`name-row-${threadElementId}`);
+
+                    if (avatarNode) avatarNode.src = record.avatarUrl;
+                    if (presenceNode) presenceNode.className = `w-status-indicator ${record.presenceStatus || 'offline'}`;
+                    if (labelNode) labelNode.innerText = record.displayName || "Secure Node Target";
+                }
+            });
+        }
+
+        async function promptCreateDirectLine() {
+            const identityDestinationQuery = prompt("Input targeted teammate identity email address coordinates:");
+            if (!identityDestinationQuery) return;
+
+            onValue(ref(database, 'users'), async (snapshot) => {
+                const dataset = snapshot.val() || {};
+                let targetIdentityMatchUid = null;
+                
+                for (const idKey in dataset) {
+                    if (dataset[idKey].email === identityDestinationQuery.trim()) {
+                        targetIdentityMatchUid = idKey;
+                        break;
+                    }
+                }
+
+                if (targetIdentityMatchUid) {
+                    const newChatThreadUid = push(ref(database, 'chats')).key;
+                    await set(ref(database, `chats/${newChatThreadUid}/metadata`), {
+                        creatorId: auth.currentUser.uid,
+                        targetId: targetIdentityMatchUid,
+                        title: dataset[targetIdentityMatchUid].displayName,
+                        timestamp: Date.now()
+                    });
+                    
+                    // Assign full base read/write permissions
+                    await set(ref(database, `chats/${newChatThreadUid}/permissions/${auth.currentUser.uid}`), { mute: false, kick: false });
+                    await set(ref(database, `chats/${newChatThreadUid}/permissions/${targetIdentityMatchUid}`), { mute: false, kick: false });
+
+                    selectChatThread(newChatThreadUid);
+                } else {
+                    alert("Routing Error: Specified user parameters not indexed in server database registers.");
+                }
+            }, { onlyOnce: true });
+        }
+
+        function selectChatThread(threadId) {
+            activeChatId = threadId;
+            document.getElementById("w-chat-placeholder").style.display = "none";
+            document.getElementById("w-chat-active-frame").style.display = "flex";
+
+            // Verify role permissions for access display parameters
+            onValue(ref(database, `chats/${threadId}/metadata`), (snapshot) => {
+                const meta = snapshot.val();
+                if (meta) {
+                    document.getElementById("w-chat-header-title-render").innerText = `SECURE LINK // ID: ${threadId.toUpperCase()}`;
+                    if (meta.creatorId === auth.currentUser.uid) {
+                        document.getElementById("w-chat-header-admin-controls").style.display = "block";
+                    } else {
+                        document.getElementById("w-chat-header-admin-controls").style.display = "none";
+                    }
+                }
+            });
+
+            // Clean historical routing handlers to prevent overlap leaks
+            if (activeChatListenerRef) {
+                off(ref(database, `chats/${activeChatId}/messages`));
+            }
+
+            const messagesScrollWindow = document.getElementById("w-chat-messages-scroll-box");
+            messagesScrollWindow.innerHTML = "";
+
+            activeChatListenerRef = ref(database, `chats/${activeChatId}/messages`);
+            
+            // 🔄 REAL-TIME MICRO-ERASURE UI VANISHING SYNC HOOKS
+            onChildAdded(activeChatListenerRef, (snapshot) => {
+                const msgId = snapshot.key;
+                const body = snapshot.val();
+                renderIndividualMessageBubble(msgId, body);
+            });
+
+            onChildRemoved(activeChatListenerRef, (snapshot) => {
+                const containerNode = document.getElementById(`msg-node-${snapshot.key}`);
+                if (containerNode) {
+                    // Instantly animate out, shrink and completely vanish from the viewports of ALL users currently in that room live
+                    containerNode.style.transition = "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)";
+                    containerNode.style.opacity = "0";
+                    containerNode.style.transform = "scale(0.8) translateY(-10px)";
+                    setTimeout(() => { containerNode.remove(); }, 300);
+                }
+            });
+        }
+
+        function renderIndividualMessageBubble(messageId, messageObject) {
+            const streamArea = document.getElementById("w-chat-messages-scroll-box");
+            const isSenderSelf = messageObject.senderId === auth.currentUser.uid;
+            
+            const messageWrapperNode = document.createElement("div");
+            messageWrapperNode.id = `msg-node-${messageId}`;
+            messageWrapperNode.className = `w-msg-node-wrapper ${isSenderSelf ? 'outgoing' : 'incoming'}`;
+
+            const localizedDateString = new Date(messageObject.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            let contentPayloadMarkup = `<div>${messageObject.text}</div>`;
+            if (messageObject.type === "file") {
+                if (messageObject.fileUrl.match(/\.(jpeg|jpg|gif|png)$/i)) {
+                    contentPayloadMarkup = `<div>${messageObject.text}</div><img class='w-msg-bubble-file-img' src='${messageObject.fileUrl}'>`;
+                } else {
+                    contentPayloadMarkup = `<div>${messageObject.text}</div><a class='w-msg-bubble-file-link' href='${messageObject.fileUrl}' target='_blank'><i class="fa-solid fa-file-arrow-down"></i> Open Extracted Asset Block</a>`;
+                }
+            } else if (messageObject.type === "iframe") {
+                contentPayloadMarkup = `<div>${messageObject.text}</div><div style='margin-top:1rem; width:400px; height:250px; border-radius:8px; overflow:hidden;'><iframe src='${messageObject.iframeUrl}' style='width:100%; height:100%; border:none; background:#000;'></iframe></div>`;
+            }
+
+            messageWrapperNode.innerHTML = `
+                <span class="w-msg-meta-stamp">${messageObject.senderName} &bull; ${localizedDateString}</span>
+                <div class="w-msg-bubble">
+                    ${contentPayloadMarkup}
+                </div>
+                ${isSenderSelf ? `<button class="w-msg-erasure-action" onclick="executeMicroErasureTransaction('${messageId}')"><i class="fa-solid fa-trash"></i></button>` : ''}
+            `;
+
+            streamArea.appendChild(messageWrapperNode);
+            streamArea.scrollTop = streamArea.scrollHeight;
+        }
+
+        async function transmitTextMessage() {
+            const inputField = document.getElementById("w-chat-input-message-string");
+            const value = inputField.value.trim();
+            if (!value || !activeChatId) return;
+
+            // Check if user is muted before execution
+            onValue(ref(database, `chats/${activeChatId}/permissions/${auth.currentUser.uid}`), async (snapshot) => {
+                const perm = snapshot.val();
+                if (perm && perm.mute) {
+                    alert("Transmission Terminated: Your operational node has been set to MUTED state by channel command authority.");
+                    inputField.value = "";
+                    return;
+                }
+
+                const targetLocation = ref(database, `chats/${activeChatId}/messages`);
+                const messagePayload = {
+                    senderId: auth.currentUser.uid,
+                    senderName: localUserRecord.displayName,
+                    text: value,
+                    timestamp: Date.now(),
+                    type: "text"
+                };
+
+                await push(targetLocation, messagePayload);
+                
+                // 📧 MODULE 6: BACKGROUND OFFLINE NOTIFICATION RELAY ARCHITECTURE TRIGGER
+                executeOfflineNotificationRouting(value);
+                
+                inputField.value = "";
+            }, { onlyOnce: true });
+        }
+
+        // 📁 MODULE 5: ASSET DOCK UPLOADER FLOW PIPELINES
+        function triggerAssetUploadSelection() {
+            document.getElementById("w-chat-hidden-file-input").click();
+        }
+
+        async function executeAssetPayloadUpload(element) {
+            const file = element.files[0];
+            if (!file || !activeChatId) return;
+
+            const referenceLocation = storageRef(storage, `chat_assets/${activeChatId}/${file.name}`);
+            try {
+                const snapshot = await uploadBytes(referenceLocation, file);
+                const cloudAssetUrl = await getDownloadURL(snapshot.ref);
+
+                const messagePayload = {
+                    senderId: auth.currentUser.uid,
+                    senderName: localUserRecord.displayName,
+                    text: `Transmitted Attachment Block: [ ${file.name} ]`,
+                    fileUrl: cloudAssetUrl,
+                    timestamp: Date.now(),
+                    type: "file"
+                };
+
+                await push(ref(database, `chats/${activeChatId}/messages`), messagePayload);
+            } catch (err) {
+                alert(`Asset File Attachment Uplink Failure: ${err.message}`);
+            }
+        }
+
+        function toggleGameStagingDemo() {
+            if (!activeChatId) return;
+            const linkSelection = prompt("Input live web project staging server address destination URL:", "https://playcanv.as/p/206530a7/");
+            if (!linkSelection) return;
+
+            push(ref(database, `chats/${activeChatId}/messages`), {
+                senderId: auth.currentUser.uid,
+                senderName: localUserRecord.displayName,
+                text: "🚀 INJECTED INTERACTIVE PLAYTEST STAGING ENVIRONMENT:",
+                iframeUrl: linkSelection,
+                timestamp: Date.now(),
+                type: "iframe"
+            });
+        }
+
+        async function executeMicroErasureTransaction(messageId) {
+            if (!activeChatId) return;
+            await remove(ref(database, `chats/${activeChatId}/messages/${messageId}`));
+        }
+
+        // Access Control Modifications (Mute, Kick)
+        function togglePermissionsPanel() {
+            if (!activeChatId) return;
+            document.getElementById("w-permissions-modal").classList.add("visible");
+            
+            onValue(ref(database, `chats/${activeChatId}/permissions`), (snapshot) => {
+                const list = document.getElementById("w-permissions-members-list");
+                list.innerHTML = "";
+                const data = snapshot.val() || {};
+                
+                for (const uId in data) {
+                    onValue(ref(database, `users/${uId}`), (uSnap) => {
+                        const uInfo = uSnap.val() || {};
+                        const row = document.createElement("div");
+                        row.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.2); padding:1rem; border-radius:6px;";
+                        row.innerHTML = `
+                            <span>${uInfo.displayName || uId}</span>
+                            <div style="display:flex; gap:0.5rem;">
+                                <button class="w-btn-dock-utility" onclick="executeMuteUserToggle('${uId}', ${data[uId].mute})">${data[uId].mute ? 'Unmute' : 'Mute'}</button>
+                                <button class="w-btn-dock-utility" style="color:var(--crimson-velvet); border-color:var(--crimson-velvet);" onclick="executeKickUser('${uId}')">Kick</button>
+                            </div>
+                        `;
+                        list.appendChild(row);
+                    }, { onlyOnce: true });
+                }
+            }, { onlyOnce: true });
+        }
+
+        async function executeMuteUserToggle(targetUserId, currentMuteState) {
+            await update(ref(database, `chats/${activeChatId}/permissions/${targetUserId}`), { mute: !currentMuteState });
+            togglePermissionsPanel();
+        }
+
+        async function executeKickUser(targetUserId) {
+            await remove(ref(database, `chats/${activeChatId}/permissions/${targetUserId}`));
+            // Remove thread validation linkage fields to drop user access completely
+            onValue(ref(database, `chats/${activeChatId}/metadata`), async (snapshot) => {
+                const meta = snapshot.val();
+                if (meta) {
+                    if (meta.creatorId === targetUserId) await update(ref(database, `chats/${activeChatId}/metadata`), { creatorId: "revoked" });
+                    if (meta.targetId === targetUserId) await update(ref(database, `chats/${activeChatId}/metadata`), { targetId: "revoked" });
+                }
+                togglePermissionsPanel();
+                alert("Target profile kicked and configuration keys removed.");
+            }, { onlyOnce: true });
+        }
+
+        // 📧 MODULE 6: EMAIL SYSTEM TRIGGER ALGORITHMS
+        function executeOfflineNotificationRouting(messagePayloadString) {
+            onValue(ref(database, `chats/${activeChatId}/metadata`), (snapshot) => {
+                const meta = snapshot.val();
+                if (!meta) return;
+                const receiverUserId = meta.creatorId === auth.currentUser.uid ? meta.targetId : meta.creatorId;
+
+                onValue(ref(database, `users/${receiverUserId}`), (userSnapshot) => {
+                    const receiverObj = userSnapshot.val();
+                    if (receiverObj && (receiverObj.presenceStatus === 'offline' || receiverObj.presenceStatus === 'busy')) {
+                        
+                        console.log(`%c[NOTIFICATION AUTOMATION RELAY ACTIVE] Sending dispatch routing update payload directly to logged system address: ${receiverObj.email}`, "color: #ffd700; font-weight: bold;");
+                        
+                        /* Client-Side Automated Matrix Dispatches Configuration.
+                           Replace fields below with custom active EmailJS or alternative SMTP gateway tokens.
+                        */
+                        /*
+                        emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                            to_email: receiverObj.email,
+                            subject_line: "[W-SUITE V2.1 Alert] Unread Transmission Waiting in Secure Terminal",
+                            message_payload: messagePayloadString,
+                            footer_notice: "🤖 This is an automated notification generated by the W-Suite Network Operations Command center. Please do not reply directly to this mailbox node."
+                        });
+                        */
+                    }
+                }, { onlyOnce: true });
+            }, { onlyOnce: true });
+        }
+
+        // 🎮 MODULE 7: ARCADES & LAUNCH TRANSACTION ACTIONS
+        async function executeGameLauncherTransaction(gameKeyId) {
+            if (!localUserRecord) return alert("Session Error: Authenticate credentials before spinning system engines.");
+            
+            const cardElement = document.querySelector(`.w-game-card[onclick*='${gameKeyId}']`) || document.querySelector(`[onclick*='${gameKeyId}']`).closest('.w-game-card');
+            const rankConstraint = cardElement.getAttribute('data-tier');
+
+            if (rankConstraint !== 'free' && localUserRecord.subscriptionTier !== 'cosmos') {
+                if (rankConstraint === 'elite' && localUserRecord.subscriptionTier !== 'elite') {
+                    alert("Access Blocked: High level operational simulation requires Tier II Elite Core Authentication or higher.");
+                    toggleSettingsModal(true);
+                    return;
+                }
+            }
+
+            // Fire increment atomic instruction block sequence
+            const counterLocation = ref(database, `analytics/games/${gameKeyId}`);
+            // Simple operational fallback write to simulate update increments safely
+            onValue(counterLocation, (snapshot) => {
+                const existing = snapshot.val() || { activeClickCount: 0 };
+                update(counterLocation, { activeClickCount: existing.activeClickCount + 1 });
+            }, { onlyOnce: true });
+
+            // Mount Live Embed Game Framework Canvas Render
+            const sandboxMap = {
+                vortex_combat: "https://playcanv.as/p/206530a7/",
+                grid_runner: "https://playcanv.as/p/206530a7/",
+                sub_orbital: "https://playcanv.as/p/206530a7/"
             };
 
-            contactsRegistry.push(contactObject);
-
-            // Dynamically open a correlating direct messaging line link alongside contact object
-            communicationMatrixThreads.push({
-                id: generatedId,
-                title: contactObject.name,
-                type: "direct",
-                logs: []
-            });
-
-            nameField.value = "";
-            emailField.value = "";
-
-            renderDirectoryTable();
-            renderThreadTree();
-            synchronizeCounters();
+            document.getElementById("w-staging-frame-container").classList.add("visible");
+            document.getElementById("w-staging-sandbox-build-target").src = sandboxMap[gameKeyId];
+            document.getElementById("w-staging-frame-container").scrollIntoView({ behavior: 'smooth' });
         }
 
-        function executeDirectoryDeletion(targetId) {
-            contactsRegistry = contactsRegistry.filter(contact => contact.id !== targetId);
-            communicationMatrixThreads = communicationMatrixThreads.filter(thread => thread.id !== targetId);
-
-            if (selectedCommunicationNodeId === targetId) {
-                selectedCommunicationNodeId = null;
-                document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
-                document.getElementById("chat-historical-stream-target").innerHTML = "";
-            }
-
-            renderDirectoryTable();
-            renderThreadTree();
-            synchronizeCounters();
-        }
-
-        function renderDirectoryTable() {
-            const targetBlock = document.getElementById("directory-rows-target");
-            targetBlock.innerHTML = "";
-
-            contactsRegistry.forEach(item => {
-                const rowBlock = document.createElement("div");
-                rowBlock.className = "table-row";
-                rowBlock.innerHTML = `
-                    <div style="font-weight: 600;">${item.name}</div>
-                    <div style="color: var(--text-secondary); font-family: monospace; font-size: 0.9rem;">${item.email}</div>
-                    <div>
-                        <button class="action-icon-btn" onclick="executeDirectoryDeletion('${item.id}')">
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                    </div>
-                `;
-                targetBlock.appendChild(rowBlock);
-            });
-        }
-
-        // Transmission Hub Messaging Thread Pipeline Control
         function executeGroupChannelGenesis() {
-            const titleField = document.getElementById("new-group-title");
-            if (!titleField.value.trim()) return;
+            const input = document.getElementById("new-group-title");
+            const title = input.value.trim();
+            if (!title) return;
 
-            const generatedGroupId = "node_gp_" + Date.now();
-            communicationMatrixThreads.push({
-                id: generatedGroupId,
-                title: titleField.value.trim(),
-                type: "group",
-                logs: [{ sender: "System Matrix Monitor", payload: `Cryptographic Multi-node Channel [ ${titleField.value.trim()} ] Initiated.` }]
+            const gId = push(ref(database, 'chats')).key;
+            set(ref(database, `chats/${gId}/metadata`), {
+                creatorId: auth.currentUser.uid,
+                targetId: auth.currentUser.uid, // Loopback structure for multi-access visualization rules
+                title: `👥 Group Matrix: ${title}`,
+                timestamp: Date.now()
             });
-
-            titleField.value = "";
-            renderThreadTree();
-            synchronizeCounters();
+            input.value = "";
         }
 
-        function executeGroupChannelTermination(event, targetThreadId) {
-            event.stopPropagation(); // Shield collision with list selecting onClick logic
-            communicationMatrixThreads = communicationMatrixThreads.filter(thread => thread.id !== targetThreadId);
-
-            if (selectedCommunicationNodeId === targetThreadId) {
-                selectedCommunicationNodeId = null;
-                document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
-                document.getElementById("chat-historical-stream-target").innerHTML = "";
+        // 🤖 MODULE 8: REBRANDED GEMINI INTERACTION ENGINES
+        async function queryGeminiApiEngine(promptTextString) {
+            /*
+               Rebranded Gemini Platform API Call Orchestrator Layer.
+               Insert direct orchestration proxy route endpoint or custom developer key configuration array token.
+            */
+            try {
+                // Emulated tech-forward sharp persona matching the W-Suite platform style response pattern logic
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve(`[APEX ENGINE COGNITION RESPONSE] System node request for payload [ "${promptTextString}" ] analyzed. All operational vectors within standard specification bounds.`);
+                    }, 1000);
+                });
+            } catch (err) {
+                return "[CORE REPOSITORY CRITICAL ERROR] Matrix engine fetch timeouts.";
             }
-
-            renderThreadTree();
-            synchronizeCounters();
         }
 
-        function renderThreadTree() {
-            const stackBlock = document.getElementById("sidebar-threads-target");
-            stackBlock.innerHTML = "";
+        async function transmitAiStationPayload() {
+            const inputField = document.getElementById("w-ai-station-text-field");
+            const query = inputField.value.trim();
+            if (!query) return;
 
-            communicationMatrixThreads.forEach(thread => {
-                const element = document.createElement("div");
-                element.className = `thread-item-node ${selectedCommunicationNodeId === thread.id ? 'selected' : ''}`;
-                
-                const prefixSymbol = thread.type === "group" ? "👥" : "👤";
+            appendAiFeedLog(localUserRecord.displayName, query, 'user');
+            inputField.value = "";
 
-                element.innerHTML = `
-                    <div class="thread-info">
-                        <span class="thread-meta-type">${thread.type} node</span>
-                        <span class="thread-title-text">${prefixSymbol} ${thread.title}</span>
-                    </div>
-                    ${thread.type === 'group' ? `
-                        <button class="action-icon-btn" style="padding: 4px 8px;" onclick="executeGroupChannelTermination(event, '${thread.id}')">
-                            <i class="fa-solid fa-xmark" style="font-size: 0.85rem;"></i>
-                        </button>
-                    ` : ''}
-                `;
+            const response = await queryGeminiApiEngine(query);
+            appendAiFeedLog('Wwebsite AI Bot', response, 'bot');
+        }
 
-                element.onclick = () => instantiateTerminalHook(thread.id);
-                stackBlock.appendChild(element);
+        function appendAiFeedLog(sender, text, styleClass) {
+            const feed = document.getElementById("w-ai-station-feed");
+            const element = document.createElement("div");
+            element.className = `w-ai-msg-row ${styleClass}`;
+            element.innerHTML = `<span class="bubble-sender" style="margin-bottom:0.25rem;">${sender}</span><div class="w-ai-bubble">${text}</div>`;
+            feed.appendChild(element);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        // Compact Ambient Popup Mechanics
+        function toggleAmbientWidgetWindow() {
+            const targetWindow = document.getElementById("w-ambient-chat-window");
+            const ring = document.getElementById("w-widget-glow-ring");
+            targetWindow.classList.toggle("open");
+            ring.style.display = "none";
+        }
+
+        // Inactivity Ambient Ring Execution Pipeline Trigger
+        setTimeout(() => {
+            if (!document.getElementById("w-ambient-chat-window").classList.contains("open")) {
+                document.getElementById("w-widget-glow-ring").style.display = "block";
+            }
+        }, 12000);
+
+        async function transmitWidgetAiPayload() {
+            const input = document.getElementById("w-widget-chat-input-field");
+            const query = input.value.trim();
+            if (!query) return;
+
+            const container = document.getElementById("w-widget-chat-logs-container");
+            const userRow = document.createElement("div");
+            userRow.className = "w-ai-msg-row user";
+            userRow.innerHTML = `<div class="w-ai-bubble" style="padding:0.8rem 1.2rem;">${query}</div>`;
+            container.appendChild(userRow);
+            input.value = "";
+            container.scrollTop = container.scrollHeight;
+
+            const aiResponse = await queryGeminiApiEngine(query);
+            const botRow = document.createElement("div");
+            botRow.className = "w-ai-msg-row bot";
+            botRow.innerHTML = `<div class="w-ai-bubble" style="padding:0.8rem 1.2rem; border-color:var(--border-metallic);">${aiResponse}</div>`;
+            container.appendChild(botRow);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // 👑 MODULE 9: EXECUTIVE OVERRIDE CONTROL BOARD MANAGEMENT
+        function initializeAdminMetricsSuite() {
+            onValue(ref(database, 'users'), (snapshot) => {
+                document.getElementById("admin-stat-users").innerText = String(Object.keys(snapshot.val() || {}).length).padStart(2, '0');
+            });
+            onValue(ref(database, 'chats'), (snapshot) => {
+                document.getElementById("admin-stat-chats").innerText = String(Object.keys(snapshot.val() || {}).length).padStart(2, '0');
+            });
+            onValue(ref(database, 'suggestions'), (snapshot) => {
+                document.getElementById("admin-stat-suggestions").innerText = String(Object.keys(snapshot.val() || {}).length).padStart(2, '0');
             });
         }
 
-        function instantiateTerminalHook(threadId) {
-            selectedCommunicationNodeId = threadId;
-            renderThreadTree();
-
-            const contextThread = communicationMatrixThreads.find(t => t.id === threadId);
-            document.getElementById("active-chat-title-node").innerText = 
-                contextThread.type === 'group' ? `Active Group Channel // ${contextThread.title}` : `Point-to-Point Uplink // ${contextThread.title}`;
-
-            renderHistoricalPayloadLogs();
+        async function writeSystemFlag(flagValueString) {
+            if (!auth.currentUser || auth.currentUser.email !== 'brodywilliams0226@gmail.com') return;
+            await update(ref(database, 'system'), { status: flagValueString });
         }
 
-        function renderHistoricalPayloadLogs() {
-            const streamBlock = document.getElementById("chat-historical-stream-target");
-            streamBlock.innerHTML = "";
-
-            if (!selectedCommunicationNodeId) return;
-            const targetThreadInstance = communicationMatrixThreads.find(t => t.id === selectedCommunicationNodeId);
-
-            targetThreadInstance.logs.forEach(log => {
-                const bubbleRow = document.createElement("div");
-                const isOperatorOrigin = activeTokenUser && log.sender === activeTokenUser.name;
-
-                bubbleRow.className = `chat-bubble-row ${isOperatorOrigin ? 'outgoing' : 'incoming'}`;
-                bubbleRow.innerHTML = `
-                    <span class="bubble-sender">${log.sender}</span>
-                    <div class="bubble-payload">${log.payload}</div>
-                `;
-                streamBlock.appendChild(bubbleRow);
-            });
-            streamBlock.scrollTop = streamBlock.scrollHeight;
-        }
-
-        function executePayloadTransmission() {
-            const payloadField = document.getElementById("chat-payload-message-field");
-            const payloadString = payloadField.value.trim();
-
-            if (!payloadString || !selectedCommunicationNodeId || !activeTokenUser) return;
-
-            const trackingThreadInstance = communicationMatrixThreads.find(t => t.id === selectedCommunicationNodeId);
-            trackingThreadInstance.logs.push({
-                sender: activeTokenUser.name,
-                payload: payloadString
-            });
-
-            payloadField.value = "";
-            renderHistoricalPayloadLogs();
-        }
-
-        // Meta Statistics Counter Sync Sync Function
-        function synchronizeCounters() {
-            document.getElementById("dash-contacts-count").innerText = String(contactsRegistry.length).padStart(2, '0');
-            document.getElementById("dash-chats-count").innerText = String(communicationMatrixThreads.length).padStart(2, '0');
+        async function executeGlobalNetworkRefreshProtocol() {
+            if (!auth.currentUser || auth.currentUser.email !== 'brodywilliams0226@gmail.com') return;
+            await update(ref(database, 'system'), { globalReset: Date.now() });
         }
     </script>
 </body>
