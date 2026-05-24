@@ -1,1 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Communication Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0a0a0c;
+            --bg-panel: #121216;
+            --bg-accent: #1c1c24;
+            --border-color: #262631;
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e9f;
+            --gold: #d4af37;
+            --gold-hover: #f3e5ab;
+            --danger: #ff4d4d;
+        }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Top Credit Header */
+        .premium-header {
+            background: linear-gradient(90deg, #121216 0%, #1c1c24 50%, #121216 100%);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 24px;
+            text-align: center;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Top Navigation Bar */
+        .navigation-bar {
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 32px;
+            height: 70px;
+        }
+
+        .brand-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #8e8e9f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            height: 100%;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            color: var(--text-primary);
+            background-color: var(--bg-accent);
+        }
+
+        .tab-button.active {
+            color: var(--text-primary);
+            background-color: var(--bg-accent);
+            box-shadow: inset 0 -2px 0 var(--gold);
+            border-radius: 6px 6px 0 0;
+        }
+
+        .user-profile-status {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-secondary);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-dot.active {
+            background-color: #2ecc71;
+            box-shadow: 0 0 8px #2ecc71;
+        }
+
+        /* Main Workspace Viewports */
+        .workspace-container {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 32px;
+            display: flex;
+            position: relative;
+            height: calc(100vh - 110px);
+        }
+
+        .view-frame {
+            display: none;
+            width: 100%;
+            height: 100%;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .view-frame.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typography & Structure Elements */
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Dashboard Overview Grid Layout */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+
+        .metric-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Input Controls & Premium Interface Fields */
+        .control-input-wrapper {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .input-inline-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        .field-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field-block label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+
+        input[type="text"], input[type="email"] {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus {
+            border-color: var(--gold);
+        }
+
+        /* Premium Buttons */
+        .prime-button {
+            background: linear-gradient(135deg, #ffffff 0%, #e5e5e5 100%);
+            color: #000000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .prime-button:hover {
+            opacity: 0.9;
+        }
+
+        .prime-button:active {
+            transform: scale(0.98);
+        }
+
+        .prime-button.btn-dark-style {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .prime-button.btn-dark-style:hover {
+            background-color: var(--border-color);
+        }
+
+        /* Listing Arrays Tables */
+        .data-table-container {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            flex: 1;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .table-row:hover {
+            background-color: var(--bg-accent);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .action-icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .action-icon-btn:hover {
+            color: var(--danger);
+            background-color: rgba(255, 77, 77, 0.1);
+        }
+
+        /* Secure Chat Architecture Split View */
+        .messaging-split-layout {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-panel);
+            border-radius: 12px;
+            flex: 1;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .sidebar-channels {
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            background-color: #0e0e12;
+        }
+
+        .channels-header {
+            padding: 24px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700;
+        }
+
+        .threads-scroll-stack {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .thread-item-node {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .thread-item-node:hover {
+            background-color: var(--bg-panel);
+        }
+
+        .thread-item-node.selected {
+            background-color: var(--bg-accent);
+            border-left: 3px solid var(--gold);
+        }
+
+        .thread-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .thread-meta-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+        }
+
+        .thread-title-text {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .channel-creation-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-panel);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .channel-creation-footer input {
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        /* Centralized Chat Viewport Window */
+        .active-chat-viewport {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-main);
+        }
+
+        .active-chat-header {
+            padding: 20px 24px;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: -0.2px;
+        }
+
+        .chat-historical-stream {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .chat-bubble-row {
+            max-width: 65%;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .chat-bubble-row.incoming {
+            align-self: flex-start;
+        }
+
+        .chat-bubble-row.outgoing {
+            align-self: flex-end;
+        }
+
+        .bubble-sender {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .bubble-payload {
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .chat-bubble-row.incoming .bubble-payload {
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .chat-bubble-row.outgoing .bubble-payload {
+            background: linear-gradient(135deg, #2c2c35 0%, #1c1c24 100%);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .input-interaction-dock {
+            padding: 20px 24px;
+            background-color: var(--bg-panel);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 16px;
+        }
+
+        .input-interaction-dock input {
+            flex: 1;
+        }
+
+        /* Secure Identification Access Layer (Google Auth UI) */
+        .identity-gate-layer {
+            max-width: 480px;
+            width: 100%;
+            background-color: var(--bg-panel);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 48px;
+            margin: auto;
+            text-align: center;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+        }
+
+        .gate-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 24px;
+        }
+
+        .gate-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            margin-top: 12px;
+        }
+
+        /* Luxury Google Login Design */
+        .google-auth-trigger-btn {
+            width: 100%;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 14px 24px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .google-auth-trigger-btn:hover {
+            background-color: #f1f1f1;
+        }
+
+        .google-auth-trigger-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Security Cover Overlay */
+        .lockout-overlay {
+            background-color: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(8px);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .lockout-card {
+            text-align: center;
+            max-width: 360px;
+            padding: 32px;
+        }
+
+        .lockout-card i {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .lockout-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="premium-header">
+        Enterprise Workspace Matrix &bull; Cryptographic Secure Communications &bull; Node Server Active
+    </div>
+
+    <div class="navigation-bar">
+        <div class="brand-logo">
+            <i class="fa-solid fa-shield-halved" style="color: var(--gold);"></i> APEX_SYSTEM
+        </div>
+        <div class="nav-tabs">
+            <button class="tab-button active" onclick="navigateViewport('home')"><i class="fa-solid fa-chart-pie"></i> Core Index</button>
+            <button class="tab-button" onclick="navigateViewport('contacts')"><i class="fa-solid fa-address-book"></i> Directory</button>
+            <button class="tab-button" onclick="navigateViewport('chats')"><i class="fa-solid fa-comment-nodes"></i> Transmission</button>
+            <button class="tab-button" onclick="navigateViewport('account')"><i class="fa-solid fa-fingerprint"></i> Identity</button>
+        </div>
+        <div class="user-profile-status">
+            <span id="global-status-dot" class="status-dot"></span>
+            <span id="global-status-label">Access Token: Terminated</span>
+        </div>
+    </div>
+
+    <div class="workspace-container">
+
+        <div id="view-home" class="view-frame active">
+            <h2>System Index Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="metric-card">
+                    <div class="metric-title">Authenticated Identity</div>
+                    <div id="dash-user-val" class="metric-value" style="font-size: 1.25rem; line-height: 2.3rem; color: var(--text-secondary);">No Identity Token Found</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Active Database Records</div>
+                    <div id="dash-contacts-count" class="metric-value">00</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Active Transmission Streams</div>
+                    <div id="dash-chats-count" class="metric-value">00</div>
+                </div>
+            </div>
+            <div style="background-color: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 12px; padding: 32px; flex: 1;">
+                <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; color: var(--gold);">Operational Protocol Verification</h3>
+                <p style="color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; max-width: 800px;">
+                    Welcome to the Apex Core Workspace Terminal. This system requires identity authorization via the Secure Cloud Token Access channel before communication nodes become available. Initialize operations by accessing the identity management framework below.
+                </p>
+                <button class="prime-button" style="margin-top: 24px;" onclick="navigateViewport('account')">Initialize Authorization Sequence</button>
+            </div>
+        </div>
+
+        <div id="view-contacts" class="view-frame">
+            <h2>Directory Node Management</h2>
+            
+            <div class="control-input-wrapper">
+                <div class="input-inline-row">
+                    <div class="field-block">
+                        <label>Registry Label / Name</label>
+                        <input type="text" id="reg-name" placeholder="E.g., Jonathan Vance">
+                    </div>
+                    <div class="field-block">
+                        <label>Secure Routing Email</label>
+                        <input type="email" id="reg-email" placeholder="E.g., vance@apex.io">
+                    </div>
+                    <button class="prime-button" onclick="executeDirectoryInsertion()">Create Entry</button>
+                </div>
+            </div>
+
+            <div class="data-table-container">
+                <div style="padding: 20px 24px; font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 1px; font-weight: bold; border-bottom: 1px solid var(--border-color);">
+                    Registered Communication Nodes
+                </div>
+                <div id="directory-rows-target">
+                    </div>
+            </div>
+        </div>
+
+        <div id="view-chats" class="view-frame">
+            <div id="matrix-lockout-gate" class="lockout-overlay">
+                <div class="lockout-card">
+                    <i class="fa-solid fa-lock-open"></i>
+                    <h4 style="margin-bottom: 8px; font-size: 1.1rem;">Encryption Node Standby</h4>
+                    <p>Cryptographic transmission channels remain offline until identity validation keys are provided via Google Secure Account Authorization.</p>
+                </div>
+            </div>
+
+            <div class="messaging-split-layout">
+                <div class="sidebar-channels">
+                    <div class="channels-header">Available Communication Nodes</div>
+                    <div id="sidebar-threads-target" class="threads-scroll-stack">
+                        </div>
+                    <div class="channel-creation-footer">
+                        <input type="text" id="new-group-title" placeholder="Enter Group Matrix Label...">
+                        <button class="prime-button btn-dark-style" style="justify-content: center;" onclick="executeGroupChannelGenesis()">
+                            <i class="fa-solid fa-folder-plus"></i> Instantiate Group Channel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="active-chat-viewport">
+                    <div id="active-chat-title-node" class="active-chat-header">Awaiting Terminal Selection Sequence...</div>
+                    
+                    <div id="chat-historical-stream-target" class="chat-historical-stream">
+                        </div>
+
+                    <div class="input-interaction-dock">
+                        <input type="text" id="chat-payload-message-field" placeholder="Input cryptographic text payloads here...">
+                        <button class="prime-button" onclick="executePayloadTransmission()">
+                            Transmit <i class="fa-solid fa-paper-plane" style="font-size: 0.8rem;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-account" class="view-frame">
+            <div id="unauthenticated-gate-panel" class="identity-gate-layer">
+                <div class="gate-icon"><i class="fa-solid fa-fingerprint"></i></div>
+                <h3 style="font-size: 1.5rem; font-weight: 700;">Account Authentication</h3>
+                <p class="gate-description">Access to encryption sequences, directory manipulation, and datastore fields requires validation through the organizational Google Access token gateway.</p>
+                
+                <button class="google-auth-trigger-btn" onclick="executeSimulatedGoogleAuthentication()">
+                    <svg viewBox="0 0 24 24" width="100%" height="100%">
+                        <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3A11.959 11.959 0 0 0 12 0C7.309 0 3.255 2.545 1.055 6.327l4.21 3.438z"/>
+                        <path fill="#4285F4" d="M23.455 12.273c0-.818-.073-1.609-.209-2.382H12v4.564h6.427a5.51 5.51 0 0 1-2.391 3.618v3.009h3.855c2.254-2.082 3.564-5.145 3.564-8.809z"/>
+                        <path fill="#FBBC05" d="M5.266 14.235L1.055 17.673A11.959 11.959 0 0 0 12 24c3.245 0 5.973-1.082 7.964-2.918l-3.855-3.009c-1.09.736-2.482 1.182-4.11 1.182-3.218 0-5.945-2.145-6.918-5.027z"/>
+                        <path fill="#34A853" d="M1.055 6.327a11.838 11.838 0 0 0 0 11.346l4.21-3.437c-.227-.673-.355-1.39-.355-2.136 0-.745.127-1.463.355-2.136L1.055 6.327z"/>
+                    </svg>
+                    Continue Authenticating with Google
+                </button>
+            </div>
+
+            <div id="authenticated-profile-panel" class="identity-gate-layer" style="display: none; max-width: 540px;">
+                <div class="gate-icon" style="color: #2ecc71;"><i class="fa-solid fa-circle-check"></i></div>
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 6px;">Secure Access Session Active</h3>
+                <p id="profile-email-label" style="color: var(--gold); font-family: monospace; font-size: 0.9rem; margin-bottom: 24px;">operator@apex.io</p>
+                
+                <div style="background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 32px;">
+                    <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;">Verified Operator Label</div>
+                    <div id="profile-name-label" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 12px;">Enterprise Administrator</div>
+                    <div style="font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 4px;">Token Status Check</div>
+                    <div style="font-family: monospace; font-size: 0.85rem; color: #2ecc71;">SHA-256 VALIDATED_RSA_KEY</div>
+                </div>
+
+                <button class="prime-button btn-dark-style" style="width: 100%; justify-content: center;" onclick="executeSessionTermination()">
+                    Terminate Secure Connection
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // System Data Arrays
+        let activeTokenUser = null;
+        let selectedCommunicationNodeId = null;
+
+        let contactsRegistry = [];
+        let communicationMatrixThreads = [];
+
+        // Switching Viewports Logic Routine
+        function navigateViewport(targetFrameId) {
+            document.querySelectorAll('.view-frame').forEach(frame => frame.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(`view-${targetFrameId}`).classList.add('active');
+            
+            // Highlight button
+            const sourceButton = Array.from(document.querySelectorAll('.tab-button')).find(btn => btn.getAttribute('onclick').includes(targetFrameId));
+            if (sourceButton) sourceButton.classList.add('active');
+        }
+
+        // Luxury Google Simulated Authentication Routine
+        function executeSimulatedGoogleAuthentication() {
+            // Generate valid cryptographic dummy structure
+            activeTokenUser = {
+                name: "Enterprise System Administrator",
+                email: "admin.operator@enterprise-core.com"
+            };
+
+            // Propagate through DOM Interface
+            document.getElementById("unauthenticated-gate-panel").style.display = "none";
+            document.getElementById("authenticated-profile-panel").style.display = "block";
+            
+            document.getElementById("profile-name-label").innerText = activeTokenUser.name;
+            document.getElementById("profile-email-label").innerText = activeTokenUser.email;
+            document.getElementById("dash-user-val").innerText = `${activeTokenUser.name} <${activeTokenUser.email}>`;
+            document.getElementById("dash-user-val").style.color = "var(--text-primary)";
+
+            // Shift System Status Bar Parameters
+            const dot = document.getElementById("global-status-dot");
+            const label = document.getElementById("global-status-label");
+            dot.classList.add("active");
+            label.innerText = "Access Token: Active";
+            label.style.color = "var(--text-primary)";
+
+            // Lift Encryption Block Guards on Chats
+            document.getElementById("matrix-lockout-gate").style.display = "none";
+
+            synchronizeCounters();
+        }
+
+        function executeSessionTermination() {
+            activeTokenUser = null;
+
+            document.getElementById("unauthenticated-gate-panel").style.display = "block";
+            document.getElementById("authenticated-profile-panel").style.display = "none";
+            document.getElementById("dash-user-val").innerText = "No Identity Token Found";
+            document.getElementById("dash-user-val").style.color = "var(--text-secondary)";
+
+            const dot = document.getElementById("global-status-dot");
+            const label = document.getElementById("global-status-label");
+            dot.classList.remove("active");
+            label.innerText = "Access Token: Terminated";
+            label.style.color = "var(--text-secondary)";
+
+            document.getElementById("matrix-lockout-gate").style.display = "flex";
+
+            selectedCommunicationNodeId = null;
+            document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
+            document.getElementById("chat-historical-stream-target").innerHTML = "";
+
+            synchronizeCounters();
+            renderThreadTree();
+        }
+
+        // Contacts Architecture Array Modification Handlers
+        function executeDirectoryInsertion() {
+            const nameField = document.getElementById("reg-name");
+            const emailField = document.getElementById("reg-email");
+
+            if (!nameField.value.trim() || !emailField.value.trim()) {
+                alert("Matrix Incomplete: Parameter inputs require payload structures before insertion.");
+                return;
+            }
+
+            const generatedId = "node_tr_" + Date.now();
+            const contactObject = {
+                id: generatedId,
+                name: nameField.value.trim(),
+                email: emailField.value.trim()
+            };
+
+            contactsRegistry.push(contactObject);
+
+            // Dynamically open a correlating direct messaging line link alongside contact object
+            communicationMatrixThreads.push({
+                id: generatedId,
+                title: contactObject.name,
+                type: "direct",
+                logs: []
+            });
+
+            nameField.value = "";
+            emailField.value = "";
+
+            renderDirectoryTable();
+            renderThreadTree();
+            synchronizeCounters();
+        }
+
+        function executeDirectoryDeletion(targetId) {
+            contactsRegistry = contactsRegistry.filter(contact => contact.id !== targetId);
+            communicationMatrixThreads = communicationMatrixThreads.filter(thread => thread.id !== targetId);
+
+            if (selectedCommunicationNodeId === targetId) {
+                selectedCommunicationNodeId = null;
+                document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
+                document.getElementById("chat-historical-stream-target").innerHTML = "";
+            }
+
+            renderDirectoryTable();
+            renderThreadTree();
+            synchronizeCounters();
+        }
+
+        function renderDirectoryTable() {
+            const targetBlock = document.getElementById("directory-rows-target");
+            targetBlock.innerHTML = "";
+
+            contactsRegistry.forEach(item => {
+                const rowBlock = document.createElement("div");
+                rowBlock.className = "table-row";
+                rowBlock.innerHTML = `
+                    <div style="font-weight: 600;">${item.name}</div>
+                    <div style="color: var(--text-secondary); font-family: monospace; font-size: 0.9rem;">${item.email}</div>
+                    <div>
+                        <button class="action-icon-btn" onclick="executeDirectoryDeletion('${item.id}')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                `;
+                targetBlock.appendChild(rowBlock);
+            });
+        }
+
+        // Transmission Hub Messaging Thread Pipeline Control
+        function executeGroupChannelGenesis() {
+            const titleField = document.getElementById("new-group-title");
+            if (!titleField.value.trim()) return;
+
+            const generatedGroupId = "node_gp_" + Date.now();
+            communicationMatrixThreads.push({
+                id: generatedGroupId,
+                title: titleField.value.trim(),
+                type: "group",
+                logs: [{ sender: "System Matrix Monitor", payload: `Cryptographic Multi-node Channel [ ${titleField.value.trim()} ] Initiated.` }]
+            });
+
+            titleField.value = "";
+            renderThreadTree();
+            synchronizeCounters();
+        }
+
+        function executeGroupChannelTermination(event, targetThreadId) {
+            event.stopPropagation(); // Shield collision with list selecting onClick logic
+            communicationMatrixThreads = communicationMatrixThreads.filter(thread => thread.id !== targetThreadId);
+
+            if (selectedCommunicationNodeId === targetThreadId) {
+                selectedCommunicationNodeId = null;
+                document.getElementById("active-chat-title-node").innerText = "Awaiting Terminal Selection Sequence...";
+                document.getElementById("chat-historical-stream-target").innerHTML = "";
+            }
+
+            renderThreadTree();
+            synchronizeCounters();
+        }
+
+        function renderThreadTree() {
+            const stackBlock = document.getElementById("sidebar-threads-target");
+            stackBlock.innerHTML = "";
+
+            communicationMatrixThreads.forEach(thread => {
+                const element = document.createElement("div");
+                element.className = `thread-item-node ${selectedCommunicationNodeId === thread.id ? 'selected' : ''}`;
+                
+                const prefixSymbol = thread.type === "group" ? "👥" : "👤";
+
+                element.innerHTML = `
+                    <div class="thread-info">
+                        <span class="thread-meta-type">${thread.type} node</span>
+                        <span class="thread-title-text">${prefixSymbol} ${thread.title}</span>
+                    </div>
+                    ${thread.type === 'group' ? `
+                        <button class="action-icon-btn" style="padding: 4px 8px;" onclick="executeGroupChannelTermination(event, '${thread.id}')">
+                            <i class="fa-solid fa-xmark" style="font-size: 0.85rem;"></i>
+                        </button>
+                    ` : ''}
+                `;
+
+                element.onclick = () => instantiateTerminalHook(thread.id);
+                stackBlock.appendChild(element);
+            });
+        }
+
+        function instantiateTerminalHook(threadId) {
+            selectedCommunicationNodeId = threadId;
+            renderThreadTree();
+
+            const contextThread = communicationMatrixThreads.find(t => t.id === threadId);
+            document.getElementById("active-chat-title-node").innerText = 
+                contextThread.type === 'group' ? `Active Group Channel // ${contextThread.title}` : `Point-to-Point Uplink // ${contextThread.title}`;
+
+            renderHistoricalPayloadLogs();
+        }
+
+        function renderHistoricalPayloadLogs() {
+            const streamBlock = document.getElementById("chat-historical-stream-target");
+            streamBlock.innerHTML = "";
+
+            if (!selectedCommunicationNodeId) return;
+            const targetThreadInstance = communicationMatrixThreads.find(t => t.id === selectedCommunicationNodeId);
+
+            targetThreadInstance.logs.forEach(log => {
+                const bubbleRow = document.createElement("div");
+                const isOperatorOrigin = activeTokenUser && log.sender === activeTokenUser.name;
+
+                bubbleRow.className = `chat-bubble-row ${isOperatorOrigin ? 'outgoing' : 'incoming'}`;
+                bubbleRow.innerHTML = `
+                    <span class="bubble-sender">${log.sender}</span>
+                    <div class="bubble-payload">${log.payload}</div>
+                `;
+                streamBlock.appendChild(bubbleRow);
+            });
+            streamBlock.scrollTop = streamBlock.scrollHeight;
+        }
+
+        function executePayloadTransmission() {
+            const payloadField = document.getElementById("chat-payload-message-field");
+            const payloadString = payloadField.value.trim();
+
+            if (!payloadString || !selectedCommunicationNodeId || !activeTokenUser) return;
+
+            const trackingThreadInstance = communicationMatrixThreads.find(t => t.id === selectedCommunicationNodeId);
+            trackingThreadInstance.logs.push({
+                sender: activeTokenUser.name,
+                payload: payloadString
+            });
+
+            payloadField.value = "";
+            renderHistoricalPayloadLogs();
+        }
+
+        // Meta Statistics Counter Sync Sync Function
+        function synchronizeCounters() {
+            document.getElementById("dash-contacts-count").innerText = String(contactsRegistry.length).padStart(2, '0');
+            document.getElementById("dash-chats-count").innerText = String(communicationMatrixThreads.length).padStart(2, '0');
+        }
+    </script>
+</body>
+</html>
