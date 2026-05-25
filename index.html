@@ -63,7 +63,7 @@
             box-sizing: border-box;
         }
 
-        .btn:hover {
+        .btn:hover:not([disabled]) {
             background-color: #f8f9fa;
         }
 
@@ -82,11 +82,6 @@
             color: #999999;
             cursor: not-allowed;
             border-style: dashed;
-            position: relative;
-        }
-
-        .btn-microsoft:hover {
-            background-color: #fafafa;
         }
 
         .badge {
@@ -144,7 +139,7 @@
         <h2>Welcome</h2>
         <p class="subtitle">Please sign in to continue</p>
 
-        <button class="btn btn-google" onclick="handleGoogleLogin()">
+        <button class="btn btn-google" id="google-login-btn">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -162,30 +157,63 @@
         <div class="divider">or</div>
 
         <div class="footer-links">
-            Don't have an account? <a href="#" onclick="handleCreateAccount()">Create an account</a>
+            Don't have an account? <a href="#" id="create-account-btn">Create an account</a>
             <br><br>
-            <a href="#" onclick="handleEmailLogin()">Sign in with email</a>
+            <a href="#" id="email-login-btn">Sign in with email</a>
         </div>
     </div>
 
-    <script>
-        function handleGoogleLogin() {
-            // Replace with your Google OAuth logic
-            console.log("Redirecting to Google login...");
-            alert("Google Sign-In clicked");
-        }
+    <script type="module">
+        // Import Firebase SDK functions from CDN
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        function handleCreateAccount() {
-            // Replace with your signup navigation or modal logic
-            console.log("Opening account creation...");
-            alert("Create Account clicked");
-        }
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyChx24EPK7w1f7SGVYraI993TkC89ZxiZo",
+            authDomain: "wwebsite-ae20b.firebaseapp.com",
+            databaseURL: "https://wwebsite-ae20b-default-rtdb.firebaseio.com",
+            projectId: "wwebsite-ae20b",
+            storageBucket: "wwebsite-ae20b.firebasestorage.app",
+            messagingSenderId: "1073638981689",
+            appId: "1:1073638981689:web:1fceb547ed3704b782cde8",
+            measurementId: "G-HK8S5YRG4J"
+        };
 
-        function handleEmailLogin() {
-            // Replace with your standard login form logic
-            console.log("Opening standard email login...");
-            alert("Email Login clicked");
-        }
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        
+        // Initialize Auth
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Attach event listener to Google Button
+        document.getElementById('google-login-btn').addEventListener('click', () => {
+            signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    console.log("User signed in:", user);
+                    alert(`Welcome, ${user.displayName}!`);
+                    // Optional: window.location.href = "/dashboard.html";
+                })
+                .catch((error) => {
+                    console.error("Auth Error:", error.code, error.message);
+                    alert(`Sign-in failed: ${error.message}`);
+                });
+        });
+
+        // Event listeners for your placeholders
+        document.getElementById('create-account-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("Create Account logic goes here.");
+        });
+
+        document.getElementById('email-login-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            alert("Email Login form logic goes here.");
+        });
     </script>
 </body>
 </html>
